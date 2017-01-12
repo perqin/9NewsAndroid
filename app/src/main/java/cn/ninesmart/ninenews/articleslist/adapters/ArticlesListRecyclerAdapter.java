@@ -1,5 +1,6 @@
 package cn.ninesmart.ninenews.articleslist.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,13 @@ public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesLi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.topicText.setText(mDataSet.get(position).getTopic());
+        ArticleModel model = mDataSet.get(position);
+        Context context = holder.itemView.getContext();
+        holder.topicText.setText(model.getTopic());
+        holder.summaryText.setText(model.getSummary());
+        holder.categoryText.setText(model.getCategory());
+        holder.commentCountText.setText(context.getString(R.string.n_comments, model.getCommentCount()));
+        holder.viewCountText.setText(context.getString(R.string.n_views, model.getViewCount()));
     }
 
     @Override
@@ -42,13 +49,21 @@ public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesLi
         return mDataSet.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView topicText;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView topicText;
+        TextView summaryText;
+        TextView categoryText;
+        TextView commentCountText;
+        TextView viewCountText;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             topicText = (TextView) itemView.findViewById(R.id.topic_text);
+            summaryText = (TextView) itemView.findViewById(R.id.summary_text);
+            categoryText = (TextView) itemView.findViewById(R.id.category_text);
+            commentCountText = (TextView) itemView.findViewById(R.id.comment_count_text);
+            viewCountText = (TextView) itemView.findViewById(R.id.view_count_text);
         }
     }
 }

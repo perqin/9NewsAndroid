@@ -13,6 +13,7 @@ public class ArticleModel {
 
     private String articleId;
     private String topic;
+    private String summary;
     private String category;
     private int commentCount;
     private int viewCount;
@@ -31,6 +32,14 @@ public class ArticleModel {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public String getCategory() {

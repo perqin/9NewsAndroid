@@ -15,6 +15,10 @@ public final class GetArticlesRes {
     public static class Article {
         public String _id;
         public String topic;
+        public String summary;
+        public String category;
+        public int comments;
+        public int views;
     }
 
     public static class Pager {

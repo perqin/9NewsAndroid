@@ -29,6 +29,10 @@ public class RemoteArticlesStore {
                 ArticleModel article = new ArticleModel();
                 article.setArticleId(a._id);
                 article.setTopic(a.topic);
+                article.setSummary(a.summary);
+                article.setCategory(a.category);
+                article.setCommentCount(a.comments);
+                article.setViewCount(a.views);
                 articles.add(article);
             }
             return articles;
