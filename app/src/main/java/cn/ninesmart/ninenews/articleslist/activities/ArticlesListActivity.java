@@ -2,6 +2,7 @@ package cn.ninesmart.ninenews.articleslist.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
@@ -15,6 +16,9 @@ public class ArticlesListActivity extends AppCompatActivity implements NewsListF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         NewsListFragment fragment = (NewsListFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
