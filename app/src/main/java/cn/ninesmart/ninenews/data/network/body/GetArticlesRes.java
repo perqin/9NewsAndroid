@@ -19,6 +19,12 @@ public final class GetArticlesRes {
         public String category;
         public int comments;
         public int views;
+        public List<Attachment> attachments;
+
+        public static class Attachment {
+            public String thumb;
+            public String url;
+        }
     }
 
     public static class Pager {

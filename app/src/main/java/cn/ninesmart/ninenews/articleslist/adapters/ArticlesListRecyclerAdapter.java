@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,7 @@ public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesLi
         holder.categoryText.setText(model.getCategory());
         holder.commentCountText.setText(context.getString(R.string.n_comments, model.getCommentCount()));
         holder.viewCountText.setText(context.getString(R.string.n_views, model.getViewCount()));
+        Picasso.with(context).load(model.getCoverImageSrc()).into(holder.coverImage);
     }
 
     @Override
@@ -55,6 +59,7 @@ public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesLi
         TextView categoryText;
         TextView commentCountText;
         TextView viewCountText;
+        ImageView coverImage;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -64,6 +69,7 @@ public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesLi
             categoryText = (TextView) itemView.findViewById(R.id.category_text);
             commentCountText = (TextView) itemView.findViewById(R.id.comment_count_text);
             viewCountText = (TextView) itemView.findViewById(R.id.view_count_text);
+            coverImage = (ImageView) itemView.findViewById(R.id.cover_image);
         }
     }
 }

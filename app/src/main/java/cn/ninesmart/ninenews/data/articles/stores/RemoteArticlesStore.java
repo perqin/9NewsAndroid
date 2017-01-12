@@ -1,5 +1,7 @@
 package cn.ninesmart.ninenews.data.articles.stores;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,9 @@ public class RemoteArticlesStore {
                 article.setCategory(a.category);
                 article.setCommentCount(a.comments);
                 article.setViewCount(a.views);
+                if (!a.attachments.isEmpty()) {
+                    article.setCoverImageSrc(Uri.parse(a.attachments.get(0).thumb));
+                }
                 articles.add(article);
             }
             return articles;

@@ -1,5 +1,7 @@
 package cn.ninesmart.ninenews.data.articles.model;
 
+import android.net.Uri;
+
 import cn.ninesmart.ninenews.data.network.body.GetArticlesRes;
 
 /**
@@ -17,6 +19,7 @@ public class ArticleModel {
     private String category;
     private int commentCount;
     private int viewCount;
+    private Uri coverImageSrc;
 
     public String getArticleId() {
         return articleId;
@@ -64,5 +67,13 @@ public class ArticleModel {
 
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
+    }
+
+    public Uri getCoverImageSrc() {
+        return coverImageSrc;
+    }
+
+    public void setCoverImageSrc(Uri coverImageSrc) {
+        this.coverImageSrc = coverImageSrc;
     }
 }
