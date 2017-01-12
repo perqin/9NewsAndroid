@@ -4,11 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View 
     private OnFragmentInteractionListener mListener;
     private ArticlesListRecyclerAdapter mArticlesListRecyclerAdapter;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mArticlesListRecyclerView;
 
     public NewsListFragment() {
@@ -48,6 +51,8 @@ public class NewsListFragment extends Fragment implements NewsListContract.View 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new OnRefreshListener());
         mArticlesListRecyclerView = (RecyclerView)
                 view.findViewById(R.id.articles_list_recycler_view);
         mArticlesListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -80,12 +85,14 @@ public class NewsListFragment extends Fragment implements NewsListContract.View 
 
     @Override
     public void showError(int code) {
-        // TODO: Implement showError
-        throw new RuntimeException("Method not implemented: showError");
+        Toast.makeText(getContext(), "Unexpected Error: code " + code, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void refreshNewsList(List<ArticleModel> articleModels) {
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
         mArticlesListRecyclerAdapter.reloadList(articleModels);
     }
 
@@ -96,5 +103,12 @@ public class NewsListFragment extends Fragment implements NewsListContract.View 
     }
 
     public interface OnFragmentInteractionListener {
+    }
+
+    private class OnRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
+        @Override
+        public void onRefresh() {
+            mPresenter.reloadNewsList();
+        }
     }
 }
