@@ -1,11 +1,16 @@
 package cn.ninesmart.ninenews.data.articles.model;
 
+import cn.ninesmart.ninenews.data.network.body.GetArticlesRes;
+
 /**
  * Author   : perqin
  * Date     : 17-1-13
  */
 
 public class ArticleModel {
+    // FIXME: Need better solution to deal with such paging API
+    public GetArticlesRes.Pager pager;
+
     private String articleId;
     private String topic;
     private String category;

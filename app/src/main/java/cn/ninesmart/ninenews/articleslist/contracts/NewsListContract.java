@@ -1,6 +1,9 @@
-package cn.ninesmart.ninenews.newslist.contracts;
+package cn.ninesmart.ninenews.articleslist.contracts;
+
+import java.util.List;
 
 import cn.ninesmart.ninenews.common.BaseView;
+import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 
 /**
  * Author   : perqin
@@ -15,8 +18,8 @@ public interface NewsListContract {
     }
 
     interface View extends BaseView<Presenter> {
-        void refreshNewsList();
+        void refreshNewsList(List<ArticleModel> articleModels);
 
-        void appendNewsList();
+        void appendNewsList(List<ArticleModel> articleModels);
     }
 }

@@ -1,14 +1,15 @@
-package cn.ninesmart.ninenews.newslist.activities;
+package cn.ninesmart.ninenews.articleslist.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import cn.ninesmart.ninenews.R;
-import cn.ninesmart.ninenews.newslist.contracts.NewsListContract;
-import cn.ninesmart.ninenews.newslist.presenters.NewsListPresenter;
-import cn.ninesmart.ninenews.newslist.views.NewsListFragment;
+import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
+import cn.ninesmart.ninenews.articleslist.presenters.NewsListPresenter;
+import cn.ninesmart.ninenews.articleslist.views.NewsListFragment;
+import cn.ninesmart.ninenews.data.articles.repositories.ArticlesRepository;
 
-public class MainActivity extends AppCompatActivity implements NewsListFragment.OnFragmentInteractionListener {
+public class ArticlesListActivity extends AppCompatActivity implements NewsListFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,8 @@ public class MainActivity extends AppCompatActivity implements NewsListFragment.
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-        NewsListContract.Presenter presenter = new NewsListPresenter();
+        NewsListContract.Presenter presenter =
+                new NewsListPresenter(ArticlesRepository.getInstance(), fragment);
         fragment.setPresenter(presenter);
     }
 }

@@ -4,8 +4,6 @@ import java.util.List;
 
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.articles.stores.RemoteArticlesStore;
-import cn.ninesmart.ninenews.data.network.retrofit.ApiFactory;
-import cn.ninesmart.ninenews.data.network.retrofit.services.NineNewsService;
 import rx.Observable;
 
 /**
@@ -15,8 +13,6 @@ import rx.Observable;
 
 public class ArticlesRepository implements IArticlesRepository {
     private static ArticlesRepository sInstance;
-
-    private NineNewsService mNineNewsService;
 
     private RemoteArticlesStore mRemote;
 
@@ -28,13 +24,12 @@ public class ArticlesRepository implements IArticlesRepository {
     }
 
     private ArticlesRepository() {
-        mNineNewsService = ApiFactory.getInstance().getNineNewsService();
+        mRemote = new RemoteArticlesStore();
     }
 
     @Override
     public Observable<List<ArticleModel>> getLatestArticlesList() {
-        // TODO
-        throw new RuntimeException("Method not implemented: cn.ninesmart.ninenews.data.articles.repositories.ArticlesRepository");
+        return mRemote.getLatestArticlesList();
     }
 
     @Override
