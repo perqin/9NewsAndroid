@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.ninesmart.ninenews.common.BaseView;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
+import cn.ninesmart.ninenews.data.users.models.UserModel;
 
 /**
  * Author   : perqin
@@ -15,11 +16,17 @@ public interface NewsListContract {
         void reloadNewsList();
 
         void loadMoreNewsList(int offset);
+
+        void updateUserProfile();
     }
 
     interface View extends BaseView<Presenter> {
         void refreshNewsList(List<ArticleModel> articleModels);
 
         void appendNewsList(List<ArticleModel> articleModels);
+
+        void refreshNotLoggedInUserProfile();
+
+        void refreshLoggedInUserProfile(UserModel userModel);
     }
 }

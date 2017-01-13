@@ -12,6 +12,7 @@ import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
 import cn.ninesmart.ninenews.articleslist.presenters.NewsListPresenter;
 import cn.ninesmart.ninenews.articleslist.views.NewsListFragment;
 import cn.ninesmart.ninenews.data.articles.repositories.ArticlesRepository;
+import cn.ninesmart.ninenews.data.auth.repositories.AuthRepository;
 
 public class ArticlesListActivity extends AppCompatActivity implements NewsListFragment.OnFragmentInteractionListener {
 
@@ -37,8 +38,8 @@ public class ArticlesListActivity extends AppCompatActivity implements NewsListF
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-        NewsListContract.Presenter presenter =
-                new NewsListPresenter(ArticlesRepository.getInstance(), fragment);
+        NewsListContract.Presenter presenter = new NewsListPresenter(
+                AuthRepository.getInstance(this), ArticlesRepository.getInstance(), fragment);
         fragment.setPresenter(presenter);
     }
 

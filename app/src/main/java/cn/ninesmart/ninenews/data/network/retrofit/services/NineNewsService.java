@@ -1,7 +1,11 @@
 package cn.ninesmart.ninenews.data.network.retrofit.services;
 
 import cn.ninesmart.ninenews.data.network.body.GetArticlesRes;
+import cn.ninesmart.ninenews.data.network.body.PostUserRes;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import rx.Observable;
 
 /**
@@ -14,4 +18,8 @@ public interface NineNewsService {
 
     @GET("articles")
     Observable<GetArticlesRes> getArticles();
+
+    @FormUrlEncoded
+    @POST("user")
+    Observable<PostUserRes> login(@Field("email") String email, @Field("password") String password);
 }

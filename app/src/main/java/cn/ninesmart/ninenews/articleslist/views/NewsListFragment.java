@@ -3,6 +3,7 @@ package cn.ninesmart.ninenews.articleslist.views;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -18,12 +21,18 @@ import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.articleslist.adapters.ArticlesListRecyclerAdapter;
 import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
+import cn.ninesmart.ninenews.data.users.models.UserModel;
 
-public class NewsListFragment extends Fragment implements NewsListContract.View {
+public class NewsListFragment extends Fragment implements NewsListContract.View, View.OnClickListener {
     private NewsListContract.Presenter mPresenter;
     private OnFragmentInteractionListener mListener;
     private ArticlesListRecyclerAdapter mArticlesListRecyclerAdapter;
 
+    // Nav drawer
+    private ImageView mAvatarImage;
+    private TextView mNicknameText;
+    private TextView mLevelText;
+    // Fragment content
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mArticlesListRecyclerView;
 
@@ -33,6 +42,17 @@ public class NewsListFragment extends Fragment implements NewsListContract.View 
 
     public static NewsListFragment newInstance() {
         return new NewsListFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -51,6 +71,14 @@ public class NewsListFragment extends Fragment implements NewsListContract.View 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // Nav Drawer
+        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        View navHeaderView = navigationView.getHeaderView(0);
+        mAvatarImage = (ImageView) navHeaderView.findViewById(R.id.avatar_image);
+        mAvatarImage.setOnClickListener(this);
+        mNicknameText = (TextView) navHeaderView.findViewById(R.id.nickname_text);
+        mLevelText = (TextView) navHeaderView.findViewById(R.id.level_text);
+        // Fragment content
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new OnRefreshListener());
         mArticlesListRecyclerView = (RecyclerView)
@@ -62,14 +90,9 @@ public class NewsListFragment extends Fragment implements NewsListContract.View 
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onResume() {
+        super.onResume();
+        mPresenter.updateUserProfile();
     }
 
     @Override
@@ -100,6 +123,28 @@ public class NewsListFragment extends Fragment implements NewsListContract.View 
     public void appendNewsList(List<ArticleModel> articleModels) {
         // TODO: Implement appendNewsList
         throw new RuntimeException("Method not implemented: appendNewsList");
+    }
+
+    @Override
+    public void refreshNotLoggedInUserProfile() {
+        mNicknameText.setText(R.string.not_logged_in);
+        mLevelText.setText(R.string.tap_avatar_above_to_login);
+    }
+
+    @Override
+    public void refreshLoggedInUserProfile(UserModel userModel) {
+        mNicknameText.setText(userModel.getNickname());
+        mLevelText.setText(userModel.getLevel());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.avatar_image:
+                break;
+            default:
+                break;
+        }
     }
 
     public interface OnFragmentInteractionListener {
