@@ -1,7 +1,10 @@
 package cn.ninesmart.ninenews.articleslist.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import cn.ninesmart.ninenews.R;
@@ -20,6 +23,12 @@ public class ArticlesListActivity extends AppCompatActivity implements NewsListF
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.open_navigation_drawer, R.string.close_navigation_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         NewsListFragment fragment = (NewsListFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (fragment == null) {
@@ -31,5 +40,15 @@ public class ArticlesListActivity extends AppCompatActivity implements NewsListF
         NewsListContract.Presenter presenter =
                 new NewsListPresenter(ArticlesRepository.getInstance(), fragment);
         fragment.setPresenter(presenter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

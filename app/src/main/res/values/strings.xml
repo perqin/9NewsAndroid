@@ -1,6 +1,13 @@
 <resources>
+    <!--Translatable literals-->
     <string name="app_name">9 News</string>
     <string name="n_comments">%1$d comments</string>
     <string name="n_views">%1$d views</string>
+    <string name="open_navigation_drawer">Open navigation drawer</string>
+    <string name="close_navigation_drawer">Close navigation drawer</string>
+    <string name="settings">Settings</string>
 
+    <!--Content descriptions-->
+    <string name="cd_nav_header_main_background_image">Navigation drawer header view background image</string>
+    <string name="cd_nav_header_main_avatar_image">Navigation drawer header view avatar image</string>
 </resources>
