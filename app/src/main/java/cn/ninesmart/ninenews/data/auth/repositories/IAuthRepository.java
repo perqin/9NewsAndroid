@@ -12,4 +12,6 @@ public interface IAuthRepository {
     Observable<AuthModel> login(String email, String password);
 
     AuthModel getAuth();
+
+    boolean isLoggedIn();
 }

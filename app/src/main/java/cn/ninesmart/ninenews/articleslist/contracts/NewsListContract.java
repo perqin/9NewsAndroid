@@ -18,6 +18,8 @@ public interface NewsListContract {
         void loadMoreNewsList(int offset);
 
         void updateUserProfile();
+
+        void avatarClick();
     }
 
     interface View extends BaseView<Presenter> {
@@ -28,5 +30,9 @@ public interface NewsListContract {
         void refreshNotLoggedInUserProfile();
 
         void refreshLoggedInUserProfile(UserModel userModel);
+
+        void showLoginRegisterPage();
+
+        void showUserProfilePage();
     }
 }

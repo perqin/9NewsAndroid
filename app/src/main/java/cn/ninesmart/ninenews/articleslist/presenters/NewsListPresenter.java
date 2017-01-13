@@ -23,11 +23,9 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     @Override
     public void reloadNewsList() {
-        mArticlesRepository.getLatestArticlesList().subscribe(articleModels -> {
-            mView.refreshNewsList(articleModels);
-        }, throwable -> {
-            throwable.printStackTrace();
-        });
+        mArticlesRepository.getLatestArticlesList().subscribe(
+                articleModels -> mView.refreshNewsList(articleModels),
+                Throwable::printStackTrace);
     }
 
     @Override
@@ -41,6 +39,15 @@ public class NewsListPresenter implements NewsListContract.Presenter {
         AuthModel authModel = mAuthRepository.getAuth();
         if (authModel == null) {
             mView.refreshNotLoggedInUserProfile();
+        }
+    }
+
+    @Override
+    public void avatarClick() {
+        if (mAuthRepository.isLoggedIn()) {
+            mView.showUserProfilePage();
+        } else {
+            mView.showLoginRegisterPage();
         }
     }
 }

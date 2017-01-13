@@ -49,4 +49,8 @@ public class LocalAuthStore {
     public AuthModel getAuth() {
         return mAuth;
     }
+
+    public boolean hasAuth() {
+        return mAuth != null;
+    }
 }

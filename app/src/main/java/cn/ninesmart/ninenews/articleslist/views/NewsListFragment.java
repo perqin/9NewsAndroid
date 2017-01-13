@@ -1,6 +1,7 @@
 package cn.ninesmart.ninenews.articleslist.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,7 @@ import java.util.List;
 import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.articleslist.adapters.ArticlesListRecyclerAdapter;
 import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
+import cn.ninesmart.ninenews.authpage.activities.LoginRegisterActivity;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.users.models.UserModel;
 
@@ -138,9 +140,19 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     }
 
     @Override
+    public void showLoginRegisterPage() {
+        startActivity(new Intent(getActivity(), LoginRegisterActivity.class));
+    }
+
+    @Override
+    public void showUserProfilePage() {
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.avatar_image:
+                mPresenter.avatarClick();
                 break;
             default:
                 break;

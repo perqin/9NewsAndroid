@@ -39,4 +39,9 @@ public class AuthRepository implements IAuthRepository {
     public AuthModel getAuth() {
         return mLocal.getAuth();
     }
+
+    @Override
+    public boolean isLoggedIn() {
+        return mLocal.hasAuth();
+    }
 }
