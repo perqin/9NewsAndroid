@@ -19,6 +19,7 @@ public class ArticleActivity extends AppCompatActivity implements ArticleFragmen
         setContentView(R.layout.activity_article);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         String articleId = getIntent().getStringExtra(EXTRA_ARTICLE_ID);
