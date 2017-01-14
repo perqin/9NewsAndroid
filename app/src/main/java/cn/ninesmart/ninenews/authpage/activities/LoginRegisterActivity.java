@@ -8,6 +8,7 @@ import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.authpage.contracts.LoginRegisterContract;
 import cn.ninesmart.ninenews.authpage.presenters.LoginRegisterPresenter;
 import cn.ninesmart.ninenews.authpage.views.LoginRegisterFragment;
+import cn.ninesmart.ninenews.data.auth.repositories.AuthRepository;
 
 public class LoginRegisterActivity extends AppCompatActivity implements LoginRegisterFragment.OnFragmentInteractionListener {
     @Override
@@ -25,7 +26,8 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginReg
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
         }
-        LoginRegisterContract.Presenter presenter = new LoginRegisterPresenter();
+        LoginRegisterContract.Presenter presenter = new LoginRegisterPresenter(
+                AuthRepository.getInstance(this), fragment);
         fragment.setPresenter(presenter);
     }
 }

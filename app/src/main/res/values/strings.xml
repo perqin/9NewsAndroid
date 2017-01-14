@@ -14,6 +14,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="nickname">Nickname</string>
+    <string name="login_successfully">Login successfully</string>
 
     <!--Content descriptions-->
     <string name="cd_nav_header_main_background_image">Navigation drawer header view background image</string>

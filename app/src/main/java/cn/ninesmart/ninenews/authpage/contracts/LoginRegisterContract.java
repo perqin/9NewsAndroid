@@ -8,7 +8,13 @@ import cn.ninesmart.ninenews.common.BaseView;
  */
 
 public interface LoginRegisterContract {
-    interface Presenter {}
+    interface Presenter {
+        void login(String email, String password);
 
-    interface View extends BaseView<Presenter> {}
+        void register(String email, String password, String confirmPassword, String nickname);
+    }
+
+    interface View extends BaseView<Presenter> {
+        void finishLogin();
+    }
 }
