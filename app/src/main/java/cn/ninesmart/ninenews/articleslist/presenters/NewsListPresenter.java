@@ -4,6 +4,7 @@ import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
 import cn.ninesmart.ninenews.data.articles.repositories.IArticlesRepository;
 import cn.ninesmart.ninenews.data.auth.models.AuthModel;
 import cn.ninesmart.ninenews.data.auth.repositories.IAuthRepository;
+import cn.ninesmart.ninenews.data.users.repositories.IUsersRepository;
 
 /**
  * Author   : perqin
@@ -13,11 +14,14 @@ import cn.ninesmart.ninenews.data.auth.repositories.IAuthRepository;
 public class NewsListPresenter implements NewsListContract.Presenter {
     private IAuthRepository mAuthRepository;
     private IArticlesRepository mArticlesRepository;
+    private IUsersRepository mUsersRepository;
     private NewsListContract.View mView;
 
-    public NewsListPresenter(IAuthRepository authRepository, IArticlesRepository articlesRepository, NewsListContract.View view) {
+    public NewsListPresenter(IAuthRepository authRepository, IArticlesRepository articlesRepository,
+                             IUsersRepository usersRepository, NewsListContract.View view) {
         mAuthRepository = authRepository;
         mArticlesRepository = articlesRepository;
+        mUsersRepository = usersRepository;
         mView = view;
     }
 
@@ -39,6 +43,10 @@ public class NewsListPresenter implements NewsListContract.Presenter {
         AuthModel authModel = mAuthRepository.getAuth();
         if (authModel == null) {
             mView.refreshNotLoggedInUserProfile();
+        } else {
+            mUsersRepository.getUser(authModel.getUid()).subscribe(
+                    userModel -> mView.refreshLoggedInUserProfile(userModel),
+                    Throwable::printStackTrace);
         }
     }
 
