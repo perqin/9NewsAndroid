@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import cn.ninesmart.ninenews.R;
@@ -137,6 +139,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     public void refreshLoggedInUserProfile(UserModel userModel) {
         mNicknameText.setText(userModel.getNickname());
         mLevelText.setText(userModel.getLevel());
+        Picasso.with(getContext()).load(userModel.getAvatarThumbSrc()).into(mAvatarImage);
     }
 
     @Override
