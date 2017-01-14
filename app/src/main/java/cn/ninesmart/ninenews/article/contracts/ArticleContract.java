@@ -1,6 +1,7 @@
 package cn.ninesmart.ninenews.article.contracts;
 
 import cn.ninesmart.ninenews.common.BaseView;
+import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 
 /**
  * Author   : perqin
@@ -8,7 +9,11 @@ import cn.ninesmart.ninenews.common.BaseView;
  */
 
 public interface ArticleContract {
-    interface Presenter {}
+    interface Presenter {
+        void reloadArticle(String articleId);
+    }
 
-    interface View extends BaseView<Presenter> {}
+    interface View extends BaseView<Presenter> {
+        void refreshArticle(ArticleModel articleModel);
+    }
 }
