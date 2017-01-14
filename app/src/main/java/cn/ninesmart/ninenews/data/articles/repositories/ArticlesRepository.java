@@ -37,4 +37,9 @@ public class ArticlesRepository implements IArticlesRepository {
         // TODO
         throw new RuntimeException("Method not implemented: cn.ninesmart.ninenews.data.articles.repositories.ArticlesRepository");
     }
+
+    @Override
+    public Observable<ArticleModel> getArticle(String articleId) {
+        return mRemote.getArticleById(articleId);
+    }
 }

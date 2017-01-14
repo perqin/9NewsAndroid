@@ -23,6 +23,11 @@ import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 
 public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesListRecyclerAdapter.ViewHolder> {
     private List<ArticleModel> mDataSet = new ArrayList<>();
+    private OnArticleItemClickListener mListener;
+
+    public void setOnArticleItemClickListener(OnArticleItemClickListener listener) {
+        mListener = listener;
+    }
 
     public void reloadList(List<ArticleModel> list) {
         mDataSet.clear();
@@ -46,6 +51,11 @@ public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesLi
         holder.commentCountText.setText(context.getString(R.string.n_comments, model.getCommentCount()));
         holder.viewCountText.setText(context.getString(R.string.n_views, model.getViewCount()));
         Picasso.with(context).load(model.getCoverImageSrc()).into(holder.coverImage);
+        holder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onArticleItemClick(mDataSet.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -71,5 +81,9 @@ public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesLi
             viewCountText = (TextView) itemView.findViewById(R.id.view_count_text);
             coverImage = (ImageView) itemView.findViewById(R.id.cover_image);
         }
+    }
+
+    public interface OnArticleItemClickListener {
+        void onArticleItemClick(ArticleModel articleModel);
     }
 }

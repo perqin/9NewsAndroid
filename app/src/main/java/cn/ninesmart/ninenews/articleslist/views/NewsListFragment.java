@@ -21,13 +21,14 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import cn.ninesmart.ninenews.R;
+import cn.ninesmart.ninenews.article.activities.ArticleActivity;
 import cn.ninesmart.ninenews.articleslist.adapters.ArticlesListRecyclerAdapter;
 import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
 import cn.ninesmart.ninenews.authpage.activities.LoginRegisterActivity;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.users.models.UserModel;
 
-public class NewsListFragment extends Fragment implements NewsListContract.View, View.OnClickListener {
+public class NewsListFragment extends Fragment implements NewsListContract.View, View.OnClickListener, ArticlesListRecyclerAdapter.OnArticleItemClickListener {
     private NewsListContract.Presenter mPresenter;
     private OnFragmentInteractionListener mListener;
     private ArticlesListRecyclerAdapter mArticlesListRecyclerAdapter;
@@ -64,6 +65,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         super.onCreate(savedInstanceState);
 
         mArticlesListRecyclerAdapter = new ArticlesListRecyclerAdapter();
+        mArticlesListRecyclerAdapter.setOnArticleItemClickListener(this);
     }
 
     @Override
@@ -162,7 +164,11 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         }
     }
 
-    public interface OnFragmentInteractionListener {
+    @Override
+    public void onArticleItemClick(ArticleModel articleModel) {
+        Intent intent = new Intent(getActivity(), ArticleActivity.class);
+        intent.putExtra(ArticleActivity.EXTRA_ARTICLE_ID, articleModel.getArticleId());
+        startActivity(intent);
     }
 
     private class OnRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
@@ -170,5 +176,8 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         public void onRefresh() {
             mPresenter.reloadNewsList();
         }
+    }
+
+    public interface OnFragmentInteractionListener {
     }
 }

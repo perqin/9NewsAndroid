@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.article.contracts.ArticleContract;
@@ -18,6 +19,9 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     private OnFragmentInteractionListener mListener;
     private ArticleContract.Presenter mPresenter;
     private String mArticleId;
+
+    private TextView mTopicText;
+    private TextView mContentText;
 
     public ArticleFragment() {
         // Required empty public constructor
@@ -61,6 +65,9 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mTopicText = (TextView) view.findViewById(R.id.topic_text);
+        mContentText = (TextView) view.findViewById(R.id.content_text);
+
         mPresenter.reloadArticle(mArticleId);
     }
 
@@ -81,6 +88,8 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
 
     @Override
     public void refreshArticle(ArticleModel articleModel) {
+        mTopicText.setText(articleModel.getTopic());
+        mContentText.setText(articleModel.getContent());
     }
 
     public interface OnFragmentInteractionListener {

@@ -43,4 +43,14 @@ public class RemoteArticlesStore {
             return articles;
         });
     }
+
+    public Observable<ArticleModel> getArticleById(String articleId) {
+        return mNineNewsService.getArticleById(articleId).compose(ApplySchedulers.network()).map(res -> {
+            ArticleModel model = new ArticleModel();
+            model.setArticleId(res.article._id);
+            model.setTopic(res.article.topic);
+            model.setContent(res.article.content);
+            return model;
+        });
+    }
 }

@@ -16,6 +16,7 @@ public class ArticleModel {
     private String articleId;
     private String topic;
     private String summary;
+    private String content;
     private String category;
     private int commentCount;
     private int viewCount;
@@ -75,5 +76,13 @@ public class ArticleModel {
 
     public void setCoverImageSrc(Uri coverImageSrc) {
         this.coverImageSrc = coverImageSrc;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

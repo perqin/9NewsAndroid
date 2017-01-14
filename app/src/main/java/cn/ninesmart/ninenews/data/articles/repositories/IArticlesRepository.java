@@ -14,4 +14,6 @@ public interface IArticlesRepository {
     Observable<List<ArticleModel>> getLatestArticlesList();
 
     Observable<List<ArticleModel>> getMoreArticlesList(long lastArticleTimeline, int page);
+
+    Observable<ArticleModel> getArticle(String articleId);
 }

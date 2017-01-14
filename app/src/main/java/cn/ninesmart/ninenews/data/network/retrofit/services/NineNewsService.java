@@ -1,5 +1,6 @@
 package cn.ninesmart.ninenews.data.network.retrofit.services;
 
+import cn.ninesmart.ninenews.data.network.body.GetArticleIdRes;
 import cn.ninesmart.ninenews.data.network.body.GetArticlesRes;
 import cn.ninesmart.ninenews.data.network.body.GetUserIdRes;
 import cn.ninesmart.ninenews.data.network.body.PostUserRes;
@@ -27,4 +28,7 @@ public interface NineNewsService {
 
     @GET("user/{id}")
     Observable<GetUserIdRes> getUserById(@Path("id") String userId);
+
+    @GET("article/{id}")
+    Observable<GetArticleIdRes> getArticleById(@Path("id") String articleId);
 }
