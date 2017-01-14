@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.ninesmart.ninenews">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,16 @@
         </activity>
         <activity
             android:name=".authpage.activities.LoginRegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".article.activities.ArticleActivity"
+            android:label="@string/title_activity_article"
+            android:parentActivityName=".articleslist.activities.ArticlesListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cn.ninesmart.ninenews.articleslist.activities.ArticlesListActivity" />
+        </activity>
     </application>
 
 </manifest>
