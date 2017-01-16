@@ -14,4 +14,6 @@ public interface IAuthRepository {
     AuthModel getAuth();
 
     boolean isLoggedIn();
+
+    Observable<Void> removeAuth();
 }

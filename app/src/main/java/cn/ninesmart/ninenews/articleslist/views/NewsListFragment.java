@@ -27,6 +27,7 @@ import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
 import cn.ninesmart.ninenews.authpage.activities.LoginRegisterActivity;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.users.models.UserModel;
+import cn.ninesmart.ninenews.profile.activities.ProfileActivity;
 
 public class NewsListFragment extends Fragment implements NewsListContract.View, View.OnClickListener, ArticlesListRecyclerAdapter.OnArticleItemClickListener {
     private NewsListContract.Presenter mPresenter;
@@ -151,6 +152,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
 
     @Override
     public void showUserProfilePage() {
+        startActivity(new Intent(getActivity(), ProfileActivity.class));
     }
 
     @Override

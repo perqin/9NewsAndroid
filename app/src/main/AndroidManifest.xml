@@ -31,6 +31,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cn.ninesmart.ninenews.articleslist.activities.ArticlesListActivity" />
         </activity>
+        <activity
+            android:name=".profile.activities.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/profile" />
     </application>
 
 </manifest>

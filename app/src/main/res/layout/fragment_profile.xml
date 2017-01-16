@@ -1,0 +1,104 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="cn.ninesmart.ninenews.profile.views.ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_item_height_text"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                style="@style/TextAppearance.ProfileItem.Title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/email"/>
+
+            <TextView
+                style="@style/TextAppearance.ProfileItem.Value"
+                android:id="@+id/email_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_item_height_avatar"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                style="@style/TextAppearance.ProfileItem.Title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/avatar"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/avatar_image"
+                    android:layout_width="@dimen/profile_item_avatar_size"
+                    android:layout_height="@dimen/profile_item_avatar_size"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/cd_fragment_profile_avatar_image"
+                    app:civ_border_width="0dp"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_item_height_text"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                style="@style/TextAppearance.ProfileItem.Title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/nickname"/>
+
+            <TextView
+                style="@style/TextAppearance.ProfileItem.Value"
+                android:id="@+id/nickname_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+
+        </LinearLayout>
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/sign_out_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/sign_out"/>
+
+    </LinearLayout>
+
+</ScrollView>

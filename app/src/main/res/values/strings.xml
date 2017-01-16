@@ -15,10 +15,15 @@
     <string name="confirm_password">Confirm password</string>
     <string name="nickname">Nickname</string>
     <string name="login_successfully">Login successfully</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_out_successfully">Sign out successfully</string>
+    <string name="avatar">Avatar</string>
+    <string name="profile">Profile</string>
 
     <!--Content descriptions-->
     <string name="cd_nav_header_main_background_image">Navigation drawer header view background image</string>
     <string name="cd_nav_header_main_avatar_image">Navigation drawer header view avatar image</string>
+    <string name="cd_fragment_profile_avatar_image">Your avatar image</string>
 
     <!--Auto-generated-->
     <string name="hello_blank_fragment">Hello blank fragment</string>

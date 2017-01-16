@@ -44,4 +44,13 @@ public class AuthRepository implements IAuthRepository {
     public boolean isLoggedIn() {
         return mLocal.hasAuth();
     }
+
+    @Override
+    public Observable<Void> removeAuth() {
+        return Observable.create(subscriber -> {
+            mLocal.removeAuthSync();
+            subscriber.onNext(null);
+            subscriber.onCompleted();
+        });
+    }
 }

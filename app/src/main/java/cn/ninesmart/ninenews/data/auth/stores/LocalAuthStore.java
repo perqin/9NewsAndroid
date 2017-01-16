@@ -39,7 +39,7 @@ public class LocalAuthStore {
                 .putString(PK_APP_AUTH_TOKEN, model.getAuth()).apply();
     }
 
-    public void remoteAuthSync() {
+    public void removeAuthSync() {
         mAuth = null;
         mAppPreferences.edit()
                 .remove(PK_APP_AUTH_UID)

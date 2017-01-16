@@ -25,6 +25,7 @@ public class RemoteUsersStore {
             UserModel model = new UserModel();
             model.setUserId(res.member._id);
             model.setNickname(res.member.nickname);
+            model.setEmail(res.member.email);
             model.setLevel(res.member.group);
             model.setAvatarThumbSrc(Uri.parse(res.member.avatar));
             return model;

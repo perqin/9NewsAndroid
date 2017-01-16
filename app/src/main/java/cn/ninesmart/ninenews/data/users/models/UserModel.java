@@ -9,6 +9,7 @@ import android.net.Uri;
 
 public class UserModel {
     private String userId;
+    private String email;
     private String nickname;
     private String level;
     private Uri avatarThumbSrc;
@@ -43,5 +44,13 @@ public class UserModel {
 
     public void setAvatarThumbSrc(Uri avatarThumbSrc) {
         this.avatarThumbSrc = avatarThumbSrc;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
