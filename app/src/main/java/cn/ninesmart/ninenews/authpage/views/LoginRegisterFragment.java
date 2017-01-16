@@ -120,6 +120,12 @@ public class LoginRegisterFragment extends Fragment implements LoginRegisterCont
     }
 
     @Override
+    public void finishRegister() {
+        Toast.makeText(getContext(), R.string.register_successfully, Toast.LENGTH_SHORT).show();
+        getActivity().finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.primary_button:

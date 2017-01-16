@@ -4,6 +4,7 @@ import cn.ninesmart.ninenews.data.network.body.GetArticleIdRes;
 import cn.ninesmart.ninenews.data.network.body.GetArticlesRes;
 import cn.ninesmart.ninenews.data.network.body.GetUserIdRes;
 import cn.ninesmart.ninenews.data.network.body.PostUserRes;
+import cn.ninesmart.ninenews.data.network.body.PostUsersRes;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -25,6 +26,13 @@ public interface NineNewsService {
     @FormUrlEncoded
     @POST("user")
     Observable<PostUserRes> login(@Field("email") String email, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("users")
+    Observable<PostUsersRes> register(@Field("email") String email,
+                                      @Field("password") String password,
+                                      @Field("repassword") String confirmPassword,
+                                      @Field("nickname") String nickname);
 
     @GET("user/{id}")
     Observable<GetUserIdRes> getUserById(@Path("id") String userId);

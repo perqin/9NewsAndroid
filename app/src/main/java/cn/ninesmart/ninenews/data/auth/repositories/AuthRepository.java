@@ -53,4 +53,10 @@ public class AuthRepository implements IAuthRepository {
             subscriber.onCompleted();
         });
     }
+
+    @Override
+    public Observable<AuthModel> register(String email, String password, String confirmPassword, String nickname) {
+        return mRemote.register(email, password, confirmPassword, nickname)
+                .doOnNext(model -> mLocal.updateAuthSync(model));
+    }
 }

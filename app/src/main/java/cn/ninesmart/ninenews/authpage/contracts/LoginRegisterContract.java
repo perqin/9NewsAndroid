@@ -16,5 +16,7 @@ public interface LoginRegisterContract {
 
     interface View extends BaseView<Presenter> {
         void finishLogin();
+
+        void finishRegister();
     }
 }

@@ -26,4 +26,13 @@ public class RemoteAuthStore {
             return model;
         });
     }
+
+    public Observable<AuthModel> register(String email, String password, String confirmPassword, String nickname) {
+        return mNineNewsService.register(email, password, confirmPassword, nickname).compose(ApplySchedulers.network()).map(res -> {
+            AuthModel model = new AuthModel();
+            model.setUid(res.uid);
+            model.setAuth(res.auth);
+            return model;
+        });
+    }
 }

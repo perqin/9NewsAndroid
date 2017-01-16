@@ -16,4 +16,6 @@ public interface IAuthRepository {
     boolean isLoggedIn();
 
     Observable<Void> removeAuth();
+
+    Observable<AuthModel> register(String email, String password, String confirmPassword, String nickname);
 }

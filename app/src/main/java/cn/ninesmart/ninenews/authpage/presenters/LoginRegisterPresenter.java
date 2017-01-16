@@ -23,5 +23,9 @@ public class LoginRegisterPresenter implements LoginRegisterContract.Presenter {
 
     @Override
     public void register(String email, String password, String confirmPassword, String nickname) {
+        mAuthRepository.register(email, password, confirmPassword, nickname).subscribe(
+                model -> mView.finishRegister(),
+                Throwable::printStackTrace
+        );
     }
 }
