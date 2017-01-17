@@ -50,7 +50,7 @@ public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesLi
         holder.categoryText.setText(model.getCategory());
         holder.commentCountText.setText(context.getString(R.string.n_comments, model.getCommentCount()));
         holder.viewCountText.setText(context.getString(R.string.n_views, model.getViewCount()));
-        Picasso.with(context).load(model.getCoverImageSrc()).into(holder.coverImage);
+        Picasso.with(context).load(model.getCoverThumbSrc()).into(holder.coverImage);
         holder.itemView.setOnClickListener(v -> {
             if (mListener != null) {
                 mListener.onArticleItemClick(mDataSet.get(holder.getAdapterPosition()));

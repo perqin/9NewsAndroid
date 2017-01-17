@@ -4,10 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.article.contracts.ArticleContract;
@@ -20,7 +25,9 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     private ArticleContract.Presenter mPresenter;
     private String mArticleId;
 
+    private ImageView mCoverImage;
     private TextView mTopicText;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView mContentText;
 
     public ArticleFragment() {
@@ -52,6 +59,8 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         if (getArguments() != null) {
             mArticleId = getArguments().getString(ARG_ARTICLE_ID);
         }
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -65,7 +74,10 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mTopicText = (TextView) view.findViewById(R.id.topic_text);
+        mCoverImage = (ImageView) getActivity().findViewById(R.id.cover_image);
+        mTopicText = (TextView) getActivity().findViewById(R.id.topic_text);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.reloadArticle(mArticleId));
         mContentText = (TextView) view.findViewById(R.id.content_text);
 
         mPresenter.reloadArticle(mArticleId);
@@ -75,6 +87,15 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getActivity().finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -88,6 +109,8 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
 
     @Override
     public void refreshArticle(ArticleModel articleModel) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        Picasso.with(getContext()).load(articleModel.getCoverHdSrc()).into(mCoverImage);
         mTopicText.setText(articleModel.getTopic());
         mContentText.setText(articleModel.getContent());
     }

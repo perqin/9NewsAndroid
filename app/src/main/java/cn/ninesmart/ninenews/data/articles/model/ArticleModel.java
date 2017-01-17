@@ -20,7 +20,8 @@ public class ArticleModel {
     private String category;
     private int commentCount;
     private int viewCount;
-    private Uri coverImageSrc;
+    private Uri coverThumbSrc;
+    private Uri coverHdSrc;
 
     public String getArticleId() {
         return articleId;
@@ -70,12 +71,12 @@ public class ArticleModel {
         this.viewCount = viewCount;
     }
 
-    public Uri getCoverImageSrc() {
-        return coverImageSrc;
+    public Uri getCoverThumbSrc() {
+        return coverThumbSrc;
     }
 
-    public void setCoverImageSrc(Uri coverImageSrc) {
-        this.coverImageSrc = coverImageSrc;
+    public void setCoverThumbSrc(Uri coverThumbSrc) {
+        this.coverThumbSrc = coverThumbSrc;
     }
 
     public String getContent() {
@@ -84,5 +85,13 @@ public class ArticleModel {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Uri getCoverHdSrc() {
+        return coverHdSrc;
+    }
+
+    public void setCoverHdSrc(Uri coverHdSrc) {
+        this.coverHdSrc = coverHdSrc;
     }
 }

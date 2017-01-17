@@ -22,6 +22,7 @@
     <string name="profile">Profile</string>
 
     <!--Content descriptions-->
+    <string name="cd_activity_article_cover_image">Cover picture for article</string>
     <string name="cd_nav_header_main_background_image">Navigation drawer header view background image</string>
     <string name="cd_nav_header_main_avatar_image">Navigation drawer header view avatar image</string>
     <string name="cd_fragment_profile_avatar_image">Your avatar image</string>

@@ -1,6 +1,7 @@
 package cn.ninesmart.ninenews.article.activities;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -21,6 +22,11 @@ public class ArticleActivity extends AppCompatActivity implements ArticleFragmen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_back_black_24dp);
+        }
 
         String articleId = getIntent().getStringExtra(EXTRA_ARTICLE_ID);
 

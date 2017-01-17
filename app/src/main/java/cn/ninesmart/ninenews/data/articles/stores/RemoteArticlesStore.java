@@ -36,7 +36,7 @@ public class RemoteArticlesStore {
                 article.setCommentCount(a.comments);
                 article.setViewCount(a.views);
                 if (!a.attachments.isEmpty()) {
-                    article.setCoverImageSrc(Uri.parse(a.attachments.get(0).thumb));
+                    article.setCoverThumbSrc(Uri.parse(a.attachments.get(0).thumb));
                 }
                 articles.add(article);
             }
@@ -50,6 +50,9 @@ public class RemoteArticlesStore {
             model.setArticleId(res.article._id);
             model.setTopic(res.article.topic);
             model.setContent(res.article.content);
+            if (!res.article.attachments.isEmpty()) {
+                model.setCoverHdSrc(Uri.parse(res.article.attachments.get(0).url));
+            }
             return model;
         });
     }
