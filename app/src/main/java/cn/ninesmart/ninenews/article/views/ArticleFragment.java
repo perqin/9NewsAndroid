@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +16,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import cn.ninesmart.ninenews.R;
+import cn.ninesmart.ninenews.article.adapters.ArticleCommentsRecyclerAdapter;
 import cn.ninesmart.ninenews.article.contracts.ArticleContract;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
+import cn.ninesmart.ninenews.data.comments.models.CommentModel;
 
 public class ArticleFragment extends Fragment implements ArticleContract.View {
     private static final String ARG_ARTICLE_ID = "ARTICLE_ID";
@@ -24,11 +30,13 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     private OnFragmentInteractionListener mListener;
     private ArticleContract.Presenter mPresenter;
     private String mArticleId;
+    private ArticleCommentsRecyclerAdapter mCommentRecyclerAdapter;
 
     private ImageView mCoverImage;
     private TextView mTopicText;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView mContentText;
+    private RecyclerView mCommentRecyclerView;
 
     public ArticleFragment() {
         // Required empty public constructor
@@ -61,6 +69,7 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         }
 
         setHasOptionsMenu(true);
+        mCommentRecyclerAdapter = new ArticleCommentsRecyclerAdapter();
     }
 
     @Override
@@ -79,8 +88,12 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.reloadArticle(mArticleId));
         mContentText = (TextView) view.findViewById(R.id.content_text);
+        mCommentRecyclerView = (RecyclerView) view.findViewById(R.id.comments_recycler_view);
+        mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mCommentRecyclerView.setAdapter(mCommentRecyclerAdapter);
 
         mPresenter.reloadArticle(mArticleId);
+        mPresenter.reloadArticleComments(mArticleId);
     }
 
     @Override
@@ -113,6 +126,11 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         Picasso.with(getContext()).load(articleModel.getCoverHdSrc()).into(mCoverImage);
         mTopicText.setText(articleModel.getTopic());
         mContentText.setText(articleModel.getContent());
+    }
+
+    @Override
+    public void refreshArticleComments(List<CommentModel> commentModels) {
+        mCommentRecyclerAdapter.reloadComments(commentModels);
     }
 
     public interface OnFragmentInteractionListener {

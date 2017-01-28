@@ -2,6 +2,7 @@ package cn.ninesmart.ninenews.data.network.retrofit.services;
 
 import cn.ninesmart.ninenews.data.network.body.GetArticleIdRes;
 import cn.ninesmart.ninenews.data.network.body.GetArticlesRes;
+import cn.ninesmart.ninenews.data.network.body.GetCommentsIdRes;
 import cn.ninesmart.ninenews.data.network.body.GetUserIdRes;
 import cn.ninesmart.ninenews.data.network.body.PostUserRes;
 import cn.ninesmart.ninenews.data.network.body.PostUsersRes;
@@ -39,4 +40,7 @@ public interface NineNewsService {
 
     @GET("article/{id}")
     Observable<GetArticleIdRes> getArticleById(@Path("id") String articleId);
+
+    @GET("comments/{article_id}")
+    Observable<GetCommentsIdRes> getCommentsByArticleId(@Path("article_id") String articleId);
 }

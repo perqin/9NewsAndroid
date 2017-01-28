@@ -10,6 +10,7 @@ import cn.ninesmart.ninenews.article.contracts.ArticleContract;
 import cn.ninesmart.ninenews.article.presenters.ArticlePresenter;
 import cn.ninesmart.ninenews.article.views.ArticleFragment;
 import cn.ninesmart.ninenews.data.articles.repositories.ArticlesRepository;
+import cn.ninesmart.ninenews.data.comments.repositories.CommentsRepository;
 
 public class ArticleActivity extends AppCompatActivity implements ArticleFragment.OnFragmentInteractionListener {
     public static final String EXTRA_ARTICLE_ID = "ARTICLE_ID";
@@ -37,7 +38,10 @@ public class ArticleActivity extends AppCompatActivity implements ArticleFragmen
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();
         }
-        ArticleContract.Presenter presenter = new ArticlePresenter(ArticlesRepository.getInstance(), fragment);
+        ArticleContract.Presenter presenter = new ArticlePresenter(
+                ArticlesRepository.getInstance(),
+                CommentsRepository.getInstance(),
+                fragment);
         fragment.setPresenter(presenter);
     }
 }
