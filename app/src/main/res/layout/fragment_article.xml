@@ -6,29 +6,25 @@
     android:layout_height="match_parent"
     tools:context="cn.ninesmart.ninenews.article.views.ArticleFragment">
 
-    <android.support.v4.widget.NestedScrollView
+    <WebView
+        android:id="@+id/content_web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:id="@+id/content_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/comments_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+            <!--<TextView-->
+                <!--style="@style/TextAppearance.AppCompat.Body1"-->
+                <!--android:id="@+id/content_text"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"/>-->
+        <!--</LinearLayout>-->
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
 </android.support.v4.widget.SwipeRefreshLayout>

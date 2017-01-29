@@ -21,6 +21,7 @@
     <string name="avatar">Avatar</string>
     <string name="profile">Profile</string>
     <string name="your_comment">Your comment</string>
+    <string name="comments">Comments</string>
 
     <!--Content descriptions-->
     <string name="cd_activity_article_cover_image">Cover picture for article</string>

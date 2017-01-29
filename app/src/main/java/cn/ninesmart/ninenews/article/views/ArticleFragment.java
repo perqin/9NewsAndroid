@@ -3,6 +3,7 @@ package cn.ninesmart.ninenews.article.views;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +12,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import org.kefirsf.bb.BBProcessorFactory;
+import org.kefirsf.bb.TextProcessor;
 
 import java.util.List;
 
@@ -31,11 +37,13 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     private ArticleContract.Presenter mPresenter;
     private String mArticleId;
     private ArticleCommentsRecyclerAdapter mCommentRecyclerAdapter;
+    private BottomSheetBehavior<View> bottomSheetBehavior;
 
     private ImageView mCoverImage;
     private TextView mTopicText;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private TextView mContentText;
+//    private PicassoBbTextView mContentText;
+    private WebView mContentWeb;
     private RecyclerView mCommentRecyclerView;
 
     public ArticleFragment() {
@@ -87,8 +95,9 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         mTopicText = (TextView) getActivity().findViewById(R.id.topic_text);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.reloadArticle(mArticleId));
-        mContentText = (TextView) view.findViewById(R.id.content_text);
-        mCommentRecyclerView = (RecyclerView) view.findViewById(R.id.comments_recycler_view);
+//        mContentText = (PicassoBbTextView) view.findViewById(R.id.content_text);
+        mContentWeb = (WebView) view.findViewById(R.id.content_web);
+        mCommentRecyclerView = (RecyclerView) getActivity().findViewById(R.id.comments_recycler_view);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mCommentRecyclerView.setAdapter(mCommentRecyclerAdapter);
 
@@ -125,7 +134,13 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         mSwipeRefreshLayout.setRefreshing(false);
         Picasso.with(getContext()).load(articleModel.getCoverHdSrc()).into(mCoverImage);
         mTopicText.setText(articleModel.getTopic());
-        mContentText.setText(articleModel.getContent());
+        TextProcessor processor = BBProcessorFactory.getInstance().create();
+        String html = processor.process(articleModel.getContent())/*.replaceAll("\\[p]", "<p>").replaceAll("\\[/p]", "</p>")*/;
+        mContentWeb.loadData(html, "text/html; charset=utf-8", "UTF-8");
+        mContentWeb.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+//        mContentText.setText(Html.fromHtml(html, new PicassoImageGetter(getContext()), null));
+//        mContentText.setText(articleModel.getContent());
+//        mContentText.setBbText(articleModel.getContent());
     }
 
     @Override

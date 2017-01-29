@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context="cn.ninesmart.ninenews.article.activities.ArticleActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -63,26 +62,55 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <LinearLayout
-        android:id="@+id/bottom_comment_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:background="#FFFFFFFF"
+        app:elevation="2dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        app:behavior_peekHeight="48dp"
+        app:behavior_hideable="true">
 
-        <EditText
-            android:id="@+id/comment_edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="textMultiLine"
-            android:hint="@string/your_comment"/>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/comments"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"/>
 
-        <ImageButton
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:id="@+id/send_comment_button"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comments_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:id="@+id/bottom_comment_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_send_black_24dp"/>
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/comment_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="textMultiLine"
+                android:hint="@string/your_comment"/>
+
+            <ImageButton
+                android:id="@+id/send_comment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_send_black_24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>
