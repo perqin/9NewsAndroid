@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -37,14 +40,12 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     private ArticleContract.Presenter mPresenter;
     private String mArticleId;
     private ArticleCommentsRecyclerAdapter mCommentRecyclerAdapter;
-    private BottomSheetBehavior<View> bottomSheetBehavior;
+    private BottomSheetBehavior mBottomSheetBehavior;
 
     private ImageView mCoverImage;
     private TextView mTopicText;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-//    private PicassoBbTextView mContentText;
     private WebView mContentWeb;
-    private RecyclerView mCommentRecyclerView;
 
     public ArticleFragment() {
         // Required empty public constructor
@@ -56,6 +57,14 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         args.putString(ARG_ARTICLE_ID, articleId);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private void onWebViewReachBottom() {
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    private void onWebViewAwayBottom() {
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
@@ -96,10 +105,17 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.reloadArticle(mArticleId));
 //        mContentText = (PicassoBbTextView) view.findViewById(R.id.content_text);
+        NestedScrollView contentScrollView = (NestedScrollView) view.findViewById(R.id.content_nested_scroll_view);
+        contentScrollView.setOnScrollChangeListener(new OnContentScrollChangeListener());
         mContentWeb = (WebView) view.findViewById(R.id.content_web);
-        mCommentRecyclerView = (RecyclerView) getActivity().findViewById(R.id.comments_recycler_view);
-        mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mCommentRecyclerView.setAdapter(mCommentRecyclerAdapter);
+        LinearLayout commentsLayout = (LinearLayout) getActivity().findViewById(R.id.comments_layout);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) commentsLayout.getLayoutParams();
+        mBottomSheetBehavior = (BottomSheetBehavior) params.getBehavior();
+        RecyclerView commentRecyclerView = (RecyclerView) getActivity().findViewById(R.id.comments_recycler_view);
+        commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        commentRecyclerView.setAdapter(mCommentRecyclerAdapter);
+
+        onWebViewAwayBottom();
 
         mPresenter.reloadArticle(mArticleId);
         mPresenter.reloadArticleComments(mArticleId);
@@ -135,7 +151,10 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         Picasso.with(getContext()).load(articleModel.getCoverHdSrc()).into(mCoverImage);
         mTopicText.setText(articleModel.getTopic());
         TextProcessor processor = BBProcessorFactory.getInstance().create();
-        String html = processor.process(articleModel.getContent())/*.replaceAll("\\[p]", "<p>").replaceAll("\\[/p]", "</p>")*/;
+        String html = processor.process(articleModel.getContent() + "\n.\n.")
+                .replaceAll("\\[p]", "")
+                .replaceAll("\\[/p]", "")
+                .replaceAll("<img(.+?)/>", "<img$1 width=\"100%\"/>");
         mContentWeb.loadData(html, "text/html; charset=utf-8", "UTF-8");
         mContentWeb.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 //        mContentText.setText(Html.fromHtml(html, new PicassoImageGetter(getContext()), null));
@@ -149,5 +168,17 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     }
 
     public interface OnFragmentInteractionListener {
+    }
+
+    private class OnContentScrollChangeListener implements NestedScrollView.OnScrollChangeListener {
+        @Override
+        public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+            View lastView = v.getChildAt(v.getChildCount() - 1);
+            if (lastView.getBottom() == v.getHeight() + v.getScrollY()) {
+                onWebViewReachBottom();
+            } else {
+                onWebViewAwayBottom();
+            }
+        }
     }
 }

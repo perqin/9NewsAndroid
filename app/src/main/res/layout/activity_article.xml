@@ -62,12 +62,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <LinearLayout
+        style="@style/BottomSheetElevation"
+        android:id="@+id/comments_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:fitsSystemWindows="true"
         android:background="#FFFFFFFF"
-        app:elevation="2dp"
         app:layout_behavior="@string/bottom_sheet_behavior"
         app:behavior_peekHeight="48dp"
         app:behavior_hideable="true">
