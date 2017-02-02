@@ -24,6 +24,9 @@ public interface NineNewsService {
     @GET("articles")
     Observable<GetArticlesRes> getArticles();
 
+    @GET("articles/{dateline}/next/{page}")
+    Observable<GetArticlesRes> getMoreArticles(@Path("dateline") long lastDateline, @Path("page") int nextPage);
+
     @FormUrlEncoded
     @POST("user")
     Observable<PostUserRes> login(@Field("email") String email, @Field("password") String password);

@@ -25,23 +25,13 @@ public class RemoteArticlesStore {
     }
 
     public Observable<List<ArticleModel>> getLatestArticlesList() {
-        return mNineNewsService.getArticles().compose(ApplySchedulers.network()).map(res -> {
-            List<ArticleModel> articles = new ArrayList<>();
-            for (GetArticlesRes.Article a : res.articles) {
-                ArticleModel article = new ArticleModel();
-                article.setArticleId(a._id);
-                article.setTopic(a.topic);
-                article.setSummary(a.summary);
-                article.setCategory(a.category);
-                article.setCommentCount(a.comments);
-                article.setViewCount(a.views);
-                if (!a.attachments.isEmpty()) {
-                    article.setCoverThumbSrc(Uri.parse(a.attachments.get(0).thumb));
-                }
-                articles.add(article);
-            }
-            return articles;
-        });
+        return mNineNewsService.getArticles().compose(ApplySchedulers.network())
+                .map(this::parseArticlesListBody);
+    }
+
+    public Observable<List<ArticleModel>> getMoreArticlesList(long lastDateline, int nextPage) {
+        return mNineNewsService.getMoreArticles(lastDateline, nextPage).compose(ApplySchedulers.network())
+                .map(this::parseArticlesListBody);
     }
 
     public Observable<ArticleModel> getArticleById(String articleId) {
@@ -55,5 +45,25 @@ public class RemoteArticlesStore {
             }
             return model;
         });
+    }
+
+    private List<ArticleModel> parseArticlesListBody(GetArticlesRes res) {
+        List<ArticleModel> articles = new ArrayList<>();
+        for (GetArticlesRes.Article a : res.articles) {
+            ArticleModel article = new ArticleModel();
+            article.setArticleId(a._id);
+            article.setTopic(a.topic);
+            article.setSummary(a.summary);
+            article.setCategory(a.category);
+            article.setCommentCount(a.comments);
+            article.setViewCount(a.views);
+            if (!a.attachments.isEmpty()) {
+                article.setCoverThumbSrc(Uri.parse(a.attachments.get(0).thumb));
+            }
+            // FIXME: Need better solution to deal with such paging API
+            article.pager = res.pager;
+            articles.add(article);
+        }
+        return articles;
     }
 }

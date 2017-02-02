@@ -15,7 +15,7 @@ public interface NewsListContract {
     interface Presenter {
         void reloadNewsList();
 
-        void loadMoreNewsList(int offset);
+        void loadMoreNewsList(long lastDateline, int nextPage);
 
         void updateUserProfile();
 
@@ -23,9 +23,9 @@ public interface NewsListContract {
     }
 
     interface View extends BaseView<Presenter> {
-        void refreshNewsList(List<ArticleModel> articleModels);
+        void refreshNewsList(List<ArticleModel> articleModels, long lastDateline, int nextPage);
 
-        void appendNewsList(List<ArticleModel> articleModels);
+        void appendNewsList(List<ArticleModel> articleModels, long lastDateline, int nextPage);
 
         void refreshNotLoggedInUserProfile();
 
@@ -34,5 +34,7 @@ public interface NewsListContract {
         void showLoginRegisterPage();
 
         void showUserProfilePage();
+
+        void showRefreshing(boolean isRefreshing);
     }
 }

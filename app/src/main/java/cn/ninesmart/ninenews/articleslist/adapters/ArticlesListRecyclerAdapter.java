@@ -24,15 +24,34 @@ import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 public class ArticlesListRecyclerAdapter extends RecyclerView.Adapter<ArticlesListRecyclerAdapter.ViewHolder> {
     private List<ArticleModel> mDataSet = new ArrayList<>();
     private OnArticleItemClickListener mListener;
+    private long mLastDateline;
+    private int mNextPage;
 
     public void setOnArticleItemClickListener(OnArticleItemClickListener listener) {
         mListener = listener;
     }
 
-    public void reloadList(List<ArticleModel> list) {
+    public void reloadList(List<ArticleModel> list, long lastDateline, int nextPage) {
         mDataSet.clear();
         mDataSet.addAll(list);
+        mLastDateline = lastDateline;
+        mNextPage = nextPage;
         notifyDataSetChanged();
+    }
+
+    public void appendList(List<ArticleModel> articleModels, long lastDateline, int nextPage) {
+        mDataSet.addAll(articleModels);
+        mLastDateline = lastDateline;
+        mNextPage = nextPage;
+        notifyItemRangeInserted(mDataSet.size() - articleModels.size(), articleModels.size());
+    }
+
+    public long getLastDateline() {
+        return mLastDateline;
+    }
+
+    public int getNextPager() {
+        return mNextPage;
     }
 
     @Override

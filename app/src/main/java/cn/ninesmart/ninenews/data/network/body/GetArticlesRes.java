@@ -28,5 +28,7 @@ public final class GetArticlesRes {
     }
 
     public static class Pager {
+        public long last_dateline;
+        public int next_page;
     }
 }

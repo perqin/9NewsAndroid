@@ -27,15 +27,24 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     @Override
     public void reloadNewsList() {
-        mArticlesRepository.getLatestArticlesList().subscribe(
-                articleModels -> mView.refreshNewsList(articleModels),
-                Throwable::printStackTrace);
+        mView.showRefreshing(true);
+        mArticlesRepository.getLatestArticlesList().subscribe(articleModels -> {
+            if (articleModels.isEmpty()) {
+                mView.refreshNewsList(articleModels, -1, -1);
+            } else {
+                mView.refreshNewsList(articleModels, articleModels.get(0).pager.last_dateline, articleModels.get(0).pager.next_page);
+            }
+        }, Throwable::printStackTrace, () -> mView.showRefreshing(false));
     }
 
     @Override
-    public void loadMoreNewsList(int offset) {
-        // TODO
-        throw new RuntimeException("Method not implemented: cn.ninesmart.ninenews.newslist.presenters.NewsListPresenter");
+    public void loadMoreNewsList(long lastDateline, int nextPage) {
+        if (lastDateline < 0 || nextPage < 0) return;
+        mArticlesRepository.getMoreArticlesList(lastDateline, nextPage).subscribe(articleModels -> {
+            if (!articleModels.isEmpty()) {
+                mView.appendNewsList(articleModels, articleModels.get(0).pager.last_dateline, articleModels.get(0).pager.next_page);
+            }
+        }, Throwable::printStackTrace);
     }
 
     @Override

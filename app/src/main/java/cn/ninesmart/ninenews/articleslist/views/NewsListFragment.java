@@ -33,6 +33,19 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     private NewsListContract.Presenter mPresenter;
     private OnFragmentInteractionListener mListener;
     private ArticlesListRecyclerAdapter mArticlesListRecyclerAdapter;
+    private LinearLayoutManager mArticlesListLayoutManager;
+    private boolean mIsLoadingMore;
+    private RecyclerView.OnScrollListener mOnArticlesListScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            if (mIsLoadingMore) return;
+
+            if (mArticlesListLayoutManager.findLastVisibleItemPosition() + mArticlesListLayoutManager.getChildCount() >= mArticlesListLayoutManager.getItemCount()) {
+                mIsLoadingMore = true;
+                mPresenter.loadMoreNewsList(mArticlesListRecyclerAdapter.getLastDateline(), mArticlesListRecyclerAdapter.getNextPager());
+            }
+        }
+    };
 
     // Nav drawer
     private ImageView mAvatarImage;
@@ -88,9 +101,10 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         // Fragment content
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new OnRefreshListener());
+        mArticlesListLayoutManager = new LinearLayoutManager(getContext());
         mArticlesListRecyclerView = (RecyclerView)
                 view.findViewById(R.id.articles_list_recycler_view);
-        mArticlesListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mArticlesListRecyclerView.setLayoutManager(mArticlesListLayoutManager);
         mArticlesListRecyclerView.setAdapter(mArticlesListRecyclerAdapter);
 
         mPresenter.reloadNewsList();
@@ -119,17 +133,15 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     }
 
     @Override
-    public void refreshNewsList(List<ArticleModel> articleModels) {
-        if (mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-        mArticlesListRecyclerAdapter.reloadList(articleModels);
+    public void refreshNewsList(List<ArticleModel> articleModels, long lastDateline, int nextPage) {
+        mArticlesListRecyclerAdapter.reloadList(articleModels, lastDateline, nextPage);
     }
 
     @Override
-    public void appendNewsList(List<ArticleModel> articleModels) {
-        // TODO: Implement appendNewsList
-        throw new RuntimeException("Method not implemented: appendNewsList");
+    public void appendNewsList(List<ArticleModel> articleModels, long lastDateline, int nextPage) {
+        // FIXME: Structure improvement
+        mIsLoadingMore = false;
+        mArticlesListRecyclerAdapter.appendList(articleModels, lastDateline, nextPage);
     }
 
     @Override
@@ -153,6 +165,16 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     @Override
     public void showUserProfilePage() {
         startActivity(new Intent(getActivity(), ProfileActivity.class));
+    }
+
+    @Override
+    public void showRefreshing(boolean isRefreshing) {
+        mSwipeRefreshLayout.setRefreshing(isRefreshing);
+        if (isRefreshing) {
+            mArticlesListRecyclerView.removeOnScrollListener(mOnArticlesListScrollListener);
+        } else {
+            mArticlesListRecyclerView.addOnScrollListener(mOnArticlesListScrollListener);
+        }
     }
 
     @Override

@@ -33,9 +33,8 @@ public class ArticlesRepository implements IArticlesRepository {
     }
 
     @Override
-    public Observable<List<ArticleModel>> getMoreArticlesList(long lastArticleTimeline, int page) {
-        // TODO
-        throw new RuntimeException("Method not implemented: cn.ninesmart.ninenews.data.articles.repositories.ArticlesRepository");
+    public Observable<List<ArticleModel>> getMoreArticlesList(long lastDateline, int page) {
+        return mRemote.getMoreArticlesList(lastDateline, page);
     }
 
     @Override
