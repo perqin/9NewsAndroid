@@ -25,6 +25,7 @@ import cn.ninesmart.ninenews.article.activities.ArticleActivity;
 import cn.ninesmart.ninenews.articleslist.adapters.ArticlesListRecyclerAdapter;
 import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
 import cn.ninesmart.ninenews.authpage.activities.LoginRegisterActivity;
+import cn.ninesmart.ninenews.common.EndlessScrollHelper;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.users.models.UserModel;
 import cn.ninesmart.ninenews.profile.activities.ProfileActivity;
@@ -33,17 +34,11 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     private NewsListContract.Presenter mPresenter;
     private OnFragmentInteractionListener mListener;
     private ArticlesListRecyclerAdapter mArticlesListRecyclerAdapter;
-    private LinearLayoutManager mArticlesListLayoutManager;
-    private boolean mIsLoadingMore;
-    private RecyclerView.OnScrollListener mOnArticlesListScrollListener = new RecyclerView.OnScrollListener() {
+    private EndlessScrollHelper mArticlesListHelper = new EndlessScrollHelper() {
         @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            if (mIsLoadingMore) return;
-
-            if (mArticlesListLayoutManager.findLastVisibleItemPosition() + mArticlesListLayoutManager.getChildCount() >= mArticlesListLayoutManager.getItemCount()) {
-                mIsLoadingMore = true;
-                mPresenter.loadMoreNewsList(mArticlesListRecyclerAdapter.getLastDateline(), mArticlesListRecyclerAdapter.getNextPager());
-            }
+        public void onLoadingMore() {
+            setCanLoadMore(false);
+            mPresenter.loadMoreNewsList(mArticlesListRecyclerAdapter.getLastDateline(), mArticlesListRecyclerAdapter.getNextPager());
         }
     };
 
@@ -101,10 +96,9 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         // Fragment content
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new OnRefreshListener());
-        mArticlesListLayoutManager = new LinearLayoutManager(getContext());
         mArticlesListRecyclerView = (RecyclerView)
                 view.findViewById(R.id.articles_list_recycler_view);
-        mArticlesListRecyclerView.setLayoutManager(mArticlesListLayoutManager);
+        mArticlesListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mArticlesListRecyclerView.setAdapter(mArticlesListRecyclerAdapter);
 
         mPresenter.reloadNewsList();
@@ -140,7 +134,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     @Override
     public void appendNewsList(List<ArticleModel> articleModels, long lastDateline, int nextPage) {
         // FIXME: Structure improvement
-        mIsLoadingMore = false;
+        mArticlesListHelper.setCanLoadMore(true);
         mArticlesListRecyclerAdapter.appendList(articleModels, lastDateline, nextPage);
     }
 
@@ -171,9 +165,9 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     public void showRefreshing(boolean isRefreshing) {
         mSwipeRefreshLayout.setRefreshing(isRefreshing);
         if (isRefreshing) {
-            mArticlesListRecyclerView.removeOnScrollListener(mOnArticlesListScrollListener);
+            mArticlesListHelper.unregister();
         } else {
-            mArticlesListRecyclerView.addOnScrollListener(mOnArticlesListScrollListener);
+            mArticlesListHelper.register(mArticlesListRecyclerView);
         }
     }
 
