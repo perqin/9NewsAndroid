@@ -31,6 +31,7 @@ public class GetCommentsIdRes {
     },
     * */
     public List<Comment> comments;
+    public Pager pager;
 
     public static class Comment {
         public String id;
@@ -43,5 +44,10 @@ public class GetCommentsIdRes {
             public String nickname;
             public String avatar;
         }
+    }
+
+    public static class Pager {
+        public long last_dateline;
+        public int next_page;
     }
 }

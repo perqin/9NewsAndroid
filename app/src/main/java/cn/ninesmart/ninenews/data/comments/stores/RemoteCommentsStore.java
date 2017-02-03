@@ -26,20 +26,29 @@ public class RemoteCommentsStore {
     }
 
     public Observable<List<CommentModel>> getCommentsByArticleId(String articleId) {
-        return mService.getCommentsByArticleId(articleId).compose(ApplySchedulers.network()).map(res -> {
-            ArrayList<CommentModel> commentModels = new ArrayList<>();
-            for (GetCommentsIdRes.Comment comment : res.comments) {
-                CommentModel commentModel = new CommentModel();
-                commentModel.setCommentId(comment.id);
-                commentModel.setContent(comment.content);
-                UserModel userModel = new UserModel();
-                userModel.setUserId(comment.user._id);
-                userModel.setNickname(comment.user.nickname);
-                userModel.setAvatarThumbSrc(Uri.parse(comment.user.avatar));
-                commentModel.setAuthor(userModel);
-                commentModels.add(commentModel);
-            }
-            return commentModels;
-        });
+        return mService.getCommentsByArticleId(articleId).compose(ApplySchedulers.network())
+                .map(this::parseCommentsListBody);
+    }
+
+    public Observable<List<CommentModel>> getMoreCommentsByArticleId(String articleId, long lastDateline, int nextPage) {
+        return mService.getMoreCommentsByArticleId(articleId, lastDateline, nextPage).compose(ApplySchedulers.network())
+                .map(this::parseCommentsListBody);
+    }
+
+    private List<CommentModel> parseCommentsListBody(GetCommentsIdRes res) {
+        ArrayList<CommentModel> commentModels = new ArrayList<>();
+        for (GetCommentsIdRes.Comment comment : res.comments) {
+            CommentModel commentModel = new CommentModel();
+            commentModel.setCommentId(comment.id);
+            commentModel.setContent(comment.content);
+            UserModel userModel = new UserModel();
+            userModel.setUserId(comment.user._id);
+            userModel.setNickname(comment.user.nickname);
+            userModel.setAvatarThumbSrc(Uri.parse(comment.user.avatar));
+            commentModel.setAuthor(userModel);
+            commentModel.pager = res.pager;
+            commentModels.add(commentModel);
+        }
+        return commentModels;
     }
 }

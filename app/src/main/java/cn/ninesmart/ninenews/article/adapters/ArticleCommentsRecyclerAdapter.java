@@ -22,11 +22,30 @@ import cn.ninesmart.ninenews.data.comments.models.CommentModel;
 
 public class ArticleCommentsRecyclerAdapter extends RecyclerView.Adapter<ArticleCommentsRecyclerAdapter.ViewHolder> {
     private ArrayList<CommentModel> mDataSet = new ArrayList<>();
+    private long mLastDateline;
+    private int mNextPage;
 
-    public void reloadComments(List<CommentModel> commentModels) {
+    public void reloadComments(List<CommentModel> commentModels, long lastDateline, int nextPage) {
         mDataSet.clear();
         mDataSet.addAll(commentModels);
+        mLastDateline = lastDateline;
+        mNextPage = nextPage;
         notifyDataSetChanged();
+    }
+
+    public void appendList(List<CommentModel> commentModels, long lastDateline, int nextPage) {
+        mDataSet.addAll(commentModels);
+        mLastDateline = lastDateline;
+        mNextPage = nextPage;
+        notifyItemRangeInserted(mDataSet.size() - commentModels.size(), commentModels.size());
+    }
+
+    public long getLastDateline() {
+        return mLastDateline;
+    }
+
+    public int getNextPager() {
+        return mNextPage;
     }
 
     @Override

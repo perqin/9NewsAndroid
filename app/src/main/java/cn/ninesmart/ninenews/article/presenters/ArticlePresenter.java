@@ -29,9 +29,22 @@ public class ArticlePresenter implements ArticleContract.Presenter {
 
     @Override
     public void reloadArticleComments(String articleId) {
-        mCommentsRepository.getCommentsByArticleId(articleId).subscribe(
-                commentModels -> mView.refreshArticleComments(commentModels),
-                Throwable::printStackTrace
-        );
+        mCommentsRepository.getCommentsByArticleId(articleId).subscribe(commentModels -> {
+            if (commentModels.isEmpty()) {
+                mView.refreshArticleComments(commentModels, -1, -1);
+            } else {
+                mView.refreshArticleComments(commentModels, commentModels.get(0).pager.last_dateline, commentModels.get(0).pager.next_page);
+            }
+        }, Throwable::printStackTrace);
+    }
+
+    @Override
+    public void loadMoreArticleComments(String articleId, long lastDateline, int nextPage) {
+        if (lastDateline < 0 || nextPage < 0) return;
+        mCommentsRepository.getMoreCommentsByArticleId(articleId, lastDateline, nextPage).subscribe(commentModels -> {
+            if (!commentModels.isEmpty()) {
+                mView.appendArticleComments(commentModels, commentModels.get(0).pager.last_dateline, commentModels.get(0).pager.next_page);
+            }
+        }, Throwable::printStackTrace);
     }
 }

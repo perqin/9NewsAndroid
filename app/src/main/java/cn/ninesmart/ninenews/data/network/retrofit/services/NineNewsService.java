@@ -46,4 +46,7 @@ public interface NineNewsService {
 
     @GET("comments/{article_id}")
     Observable<GetCommentsIdRes> getCommentsByArticleId(@Path("article_id") String articleId);
+
+    @GET("comments/{article_id}/{dateline}/next/{page}")
+    Observable<GetCommentsIdRes> getMoreCommentsByArticleId(@Path("article_id") String articleId, @Path("dateline") long lastDateline, @Path("page") int nextPage);
 }

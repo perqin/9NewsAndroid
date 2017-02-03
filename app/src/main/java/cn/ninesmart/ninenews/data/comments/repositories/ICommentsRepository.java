@@ -12,4 +12,6 @@ import rx.Observable;
 
 public interface ICommentsRepository {
     Observable<List<CommentModel>> getCommentsByArticleId(String articleId);
+
+    Observable<List<CommentModel>> getMoreCommentsByArticleId(String articleId, long lastDateline, int nextPage);
 }

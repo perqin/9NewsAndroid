@@ -31,4 +31,9 @@ public class CommentsRepository implements ICommentsRepository {
     public Observable<List<CommentModel>> getCommentsByArticleId(String articleId) {
         return mRemote.getCommentsByArticleId(articleId);
     }
+
+    @Override
+    public Observable<List<CommentModel>> getMoreCommentsByArticleId(String articleId, long lastDateline, int nextPage) {
+        return mRemote.getMoreCommentsByArticleId(articleId, lastDateline, nextPage);
+    }
 }

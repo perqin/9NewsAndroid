@@ -1,5 +1,6 @@
 package cn.ninesmart.ninenews.data.comments.models;
 
+import cn.ninesmart.ninenews.data.network.body.GetCommentsIdRes;
 import cn.ninesmart.ninenews.data.users.models.UserModel;
 
 /**
@@ -8,6 +9,9 @@ import cn.ninesmart.ninenews.data.users.models.UserModel;
  */
 
 public class CommentModel {
+    // FIXME: Need better solution to deal with such paging API
+    public GetCommentsIdRes.Pager pager;
+
     private String commentId;
     private String content;
     private UserModel author;

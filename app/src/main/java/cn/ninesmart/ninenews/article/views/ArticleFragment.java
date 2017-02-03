@@ -30,6 +30,7 @@ import java.util.List;
 import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.article.adapters.ArticleCommentsRecyclerAdapter;
 import cn.ninesmart.ninenews.article.contracts.ArticleContract;
+import cn.ninesmart.ninenews.common.EndlessScrollHelper;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.comments.models.CommentModel;
 
@@ -41,6 +42,13 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     private String mArticleId;
     private ArticleCommentsRecyclerAdapter mCommentRecyclerAdapter;
     private BottomSheetBehavior mBottomSheetBehavior;
+    private EndlessScrollHelper mCommentsListHelper = new EndlessScrollHelper() {
+        @Override
+        public void onLoadingMore() {
+            setCanLoadMore(false);
+            mPresenter.loadMoreArticleComments(mArticleId, mCommentRecyclerAdapter.getLastDateline(), mCommentRecyclerAdapter.getNextPager());
+        }
+    };
 
     private ImageView mCoverImage;
     private TextView mTopicText;
@@ -114,6 +122,7 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         RecyclerView commentRecyclerView = (RecyclerView) getActivity().findViewById(R.id.comments_recycler_view);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         commentRecyclerView.setAdapter(mCommentRecyclerAdapter);
+        mCommentsListHelper.register(commentRecyclerView);
 
         onWebViewAwayBottom();
 
@@ -163,8 +172,15 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     }
 
     @Override
-    public void refreshArticleComments(List<CommentModel> commentModels) {
-        mCommentRecyclerAdapter.reloadComments(commentModels);
+    public void refreshArticleComments(List<CommentModel> commentModels, long lastDateline, int nextPage) {
+        mCommentRecyclerAdapter.reloadComments(commentModels, lastDateline, nextPage);
+    }
+
+    @Override
+    public void appendArticleComments(List<CommentModel> commentModels, long lastDateline, int nextPage) {
+        // FIXME: Structure improvement
+        mCommentsListHelper.setCanLoadMore(true);
+        mCommentRecyclerAdapter.appendList(commentModels, lastDateline, nextPage);
     }
 
     public interface OnFragmentInteractionListener {
