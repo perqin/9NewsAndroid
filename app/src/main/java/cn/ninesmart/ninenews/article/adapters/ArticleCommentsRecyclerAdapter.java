@@ -68,6 +68,11 @@ public class ArticleCommentsRecyclerAdapter extends RecyclerView.Adapter<Article
         return mDataSet.size();
     }
 
+    public void prependNewComment(CommentModel commentModel) {
+        mDataSet.add(0, commentModel);
+        notifyItemInserted(0);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView avatarImage;
         TextView nicknameText;

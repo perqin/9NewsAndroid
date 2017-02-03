@@ -8,10 +8,12 @@ import java.util.List;
 import cn.ninesmart.ninenews.common.ApplySchedulers;
 import cn.ninesmart.ninenews.data.comments.models.CommentModel;
 import cn.ninesmart.ninenews.data.network.body.GetCommentsIdRes;
+import cn.ninesmart.ninenews.data.network.body.PostCommentsIdRes;
 import cn.ninesmart.ninenews.data.network.retrofit.ApiFactory;
 import cn.ninesmart.ninenews.data.network.retrofit.services.NineNewsService;
 import cn.ninesmart.ninenews.data.users.models.UserModel;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Author   : perqin
@@ -50,5 +52,15 @@ public class RemoteCommentsStore {
             commentModels.add(commentModel);
         }
         return commentModels;
+    }
+
+    public Observable<Void> postCommentToArticle(String token, String articleId, String content, String model) {
+        return mService.postCommentToArticle(articleId, token, "news", content, model).compose(ApplySchedulers.network())
+                .map(new Func1<PostCommentsIdRes, Void>() {
+                    @Override
+                    public Void call(PostCommentsIdRes postCommentsIdRes) {
+                        return null;
+                    }
+                });
     }
 }

@@ -14,11 +14,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -34,7 +38,7 @@ import cn.ninesmart.ninenews.common.EndlessScrollHelper;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.comments.models.CommentModel;
 
-public class ArticleFragment extends Fragment implements ArticleContract.View {
+public class ArticleFragment extends Fragment implements ArticleContract.View, View.OnClickListener {
     private static final String ARG_ARTICLE_ID = "ARTICLE_ID";
 
     private OnFragmentInteractionListener mListener;
@@ -54,6 +58,9 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     private TextView mTopicText;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private WebView mContentWeb;
+    private RecyclerView mCommentsRecyclerView;
+    private EditText mCommentEdit;
+    private ImageButton mPostCommentButton;
 
     public ArticleFragment() {
         // Required empty public constructor
@@ -119,10 +126,13 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         LinearLayout commentsLayout = (LinearLayout) getActivity().findViewById(R.id.comments_layout);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) commentsLayout.getLayoutParams();
         mBottomSheetBehavior = (BottomSheetBehavior) params.getBehavior();
-        RecyclerView commentRecyclerView = (RecyclerView) getActivity().findViewById(R.id.comments_recycler_view);
-        commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        commentRecyclerView.setAdapter(mCommentRecyclerAdapter);
-        mCommentsListHelper.register(commentRecyclerView);
+        mCommentsRecyclerView = (RecyclerView) getActivity().findViewById(R.id.comments_recycler_view);
+        mCommentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mCommentsRecyclerView.setAdapter(mCommentRecyclerAdapter);
+        mCommentsListHelper.register(mCommentsRecyclerView);
+        mCommentEdit = (EditText) getActivity().findViewById(R.id.comment_edit);
+        mPostCommentButton = (ImageButton) getActivity().findViewById(R.id.post_comment_button);
+        mPostCommentButton.setOnClickListener(this);
 
         onWebViewAwayBottom();
 
@@ -181,6 +191,37 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
         // FIXME: Structure improvement
         mCommentsListHelper.setCanLoadMore(true);
         mCommentRecyclerAdapter.appendList(commentModels, lastDateline, nextPage);
+    }
+
+    @Override
+    public void postCommentSuccessfully(CommentModel commentModel) {
+        mCommentRecyclerAdapter.prependNewComment(commentModel);
+        mCommentsRecyclerView.smoothScrollToPosition(0);
+        mCommentEdit.getText().clear();
+        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(mCommentEdit.getWindowToken(), 0);
+    }
+
+    @Override
+    public void showPostCommentFailure() {
+        Toast.makeText(getContext(), R.string.fail_to_leave_comment, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showCommentBlankError() {
+        Toast.makeText(getContext(), R.string.comment_cannot_be_empty, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showUserNotLoggedInError() {
+        Toast.makeText(getContext(), R.string.you_are_not_logged_in, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.post_comment_button) {
+            mPresenter.postCommentToArticle(mArticleId, mCommentEdit.getText().toString());
+        }
     }
 
     public interface OnFragmentInteractionListener {

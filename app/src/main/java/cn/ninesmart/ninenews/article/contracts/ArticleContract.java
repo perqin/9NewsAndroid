@@ -18,6 +18,8 @@ public interface ArticleContract {
         void reloadArticleComments(String articleId);
 
         void loadMoreArticleComments(String articleId, long lastDateline, int nextPage);
+
+        void postCommentToArticle(String articleId, String content);
     }
 
     interface View extends BaseView<Presenter> {
@@ -26,5 +28,13 @@ public interface ArticleContract {
         void refreshArticleComments(List<CommentModel> commentModels, long lastDateline, int nextPage);
 
         void appendArticleComments(List<CommentModel> commentModels, long lastDateline, int nextPage);
+
+        void postCommentSuccessfully(CommentModel commentModel);
+
+        void showPostCommentFailure();
+
+        void showCommentBlankError();
+
+        void showUserNotLoggedInError();
     }
 }

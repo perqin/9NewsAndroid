@@ -4,6 +4,7 @@ import cn.ninesmart.ninenews.data.network.body.GetArticleIdRes;
 import cn.ninesmart.ninenews.data.network.body.GetArticlesRes;
 import cn.ninesmart.ninenews.data.network.body.GetCommentsIdRes;
 import cn.ninesmart.ninenews.data.network.body.GetUserIdRes;
+import cn.ninesmart.ninenews.data.network.body.PostCommentsIdRes;
 import cn.ninesmart.ninenews.data.network.body.PostUserRes;
 import cn.ninesmart.ninenews.data.network.body.PostUsersRes;
 import retrofit2.http.Field;
@@ -11,6 +12,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -49,4 +51,12 @@ public interface NineNewsService {
 
     @GET("comments/{article_id}/{dateline}/next/{page}")
     Observable<GetCommentsIdRes> getMoreCommentsByArticleId(@Path("article_id") String articleId, @Path("dateline") long lastDateline, @Path("page") int nextPage);
+
+    @FormUrlEncoded
+    @POST("comments/{article_id}")
+    Observable<PostCommentsIdRes> postCommentToArticle(@Path("article_id") String articleId,
+                                                       @Query("auth") String token,
+                                                       @Field("type") String type,
+                                                       @Field("content") String content,
+                                                       @Field("model") String model);
 }

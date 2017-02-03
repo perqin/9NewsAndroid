@@ -22,6 +22,9 @@
     <string name="profile">Profile</string>
     <string name="your_comment">Your comment</string>
     <string name="comments">Comments</string>
+    <string name="fail_to_leave_comment">Fail to leave comment</string>
+    <string name="comment_cannot_be_empty">Comment cannot be empty</string>
+    <string name="you_are_not_logged_in">You are not logged in</string>
 
     <!--Content descriptions-->
     <string name="cd_activity_article_cover_image">Cover picture for article</string>
