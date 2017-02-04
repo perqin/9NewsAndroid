@@ -38,7 +38,7 @@ public class CommentsRepository implements ICommentsRepository {
     }
 
     @Override
-    public Observable<Void> postCommentToArticle(String token, String articleId, String content, String model) {
-        return mRemote.postCommentToArticle(token, articleId, content, model);
+    public Observable<Void> postCommentToTarget(String token, String targetId, String content, String model) {
+        return mRemote.postCommentToTarget(token, targetId, content, model);
     }
 }

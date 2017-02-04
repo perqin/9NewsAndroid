@@ -44,6 +44,7 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
     private OnFragmentInteractionListener mListener;
     private ArticleContract.Presenter mPresenter;
     private String mArticleId;
+    private String mTargetId;
     private ArticleCommentsRecyclerAdapter mCommentRecyclerAdapter;
     private BottomSheetBehavior mBottomSheetBehavior;
     private EndlessScrollHelper mCommentsListHelper = new EndlessScrollHelper() {
@@ -60,6 +61,7 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
     private WebView mContentWeb;
     private RecyclerView mCommentsRecyclerView;
     private EditText mCommentEdit;
+    private ImageButton mUndoReplyButton;
     private ImageButton mPostCommentButton;
 
     public ArticleFragment() {
@@ -82,6 +84,20 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
+    private void switchToReply(CommentModel commentModel) {
+        mCommentEdit.getText().clear();
+        mCommentEdit.setHint(getString(R.string.reply_to_comment, commentModel.getAuthor().getNickname()));
+        mUndoReplyButton.setVisibility(View.VISIBLE);
+        mTargetId = commentModel.getCommentId();
+    }
+
+    private void switchToComment() {
+        mCommentEdit.getText().clear();
+        mCommentEdit.setHint(R.string.your_comment);
+        mUndoReplyButton.setVisibility(View.GONE);
+        mTargetId = mArticleId;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -102,6 +118,7 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
 
         setHasOptionsMenu(true);
         mCommentRecyclerAdapter = new ArticleCommentsRecyclerAdapter();
+        mCommentRecyclerAdapter.setItemClickListener(new OnCommentClickListener());
     }
 
     @Override
@@ -131,10 +148,13 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
         mCommentsRecyclerView.setAdapter(mCommentRecyclerAdapter);
         mCommentsListHelper.register(mCommentsRecyclerView);
         mCommentEdit = (EditText) getActivity().findViewById(R.id.comment_edit);
+        mUndoReplyButton = (ImageButton) getActivity().findViewById(R.id.undo_reply_button);
+        mUndoReplyButton.setOnClickListener(this);
         mPostCommentButton = (ImageButton) getActivity().findViewById(R.id.post_comment_button);
         mPostCommentButton.setOnClickListener(this);
 
         onWebViewAwayBottom();
+        switchToComment();
 
         mPresenter.reloadArticle(mArticleId);
         mPresenter.reloadArticleComments(mArticleId);
@@ -197,7 +217,7 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
     public void postCommentSuccessfully(CommentModel commentModel) {
         mCommentRecyclerAdapter.prependNewComment(commentModel);
         mCommentsRecyclerView.smoothScrollToPosition(0);
-        mCommentEdit.getText().clear();
+        switchToComment();
         ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(mCommentEdit.getWindowToken(), 0);
     }
@@ -220,7 +240,9 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.post_comment_button) {
-            mPresenter.postCommentToArticle(mArticleId, mCommentEdit.getText().toString());
+            mPresenter.postCommentToTarget(mTargetId, mCommentEdit.getText().toString());
+        } else if (v.getId() == R.id.undo_reply_button) {
+            switchToComment();
         }
     }
 
@@ -236,6 +258,13 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
             } else {
                 onWebViewAwayBottom();
             }
+        }
+    }
+
+    private class OnCommentClickListener implements ArticleCommentsRecyclerAdapter.ItemClickListener {
+        @Override
+        public void onItemClick(CommentModel commentModel) {
+            switchToReply(commentModel);
         }
     }
 }

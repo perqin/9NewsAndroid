@@ -53,10 +53,10 @@ public interface NineNewsService {
     Observable<GetCommentsIdRes> getMoreCommentsByArticleId(@Path("article_id") String articleId, @Path("dateline") long lastDateline, @Path("page") int nextPage);
 
     @FormUrlEncoded
-    @POST("comments/{article_id}")
-    Observable<PostCommentsIdRes> postCommentToArticle(@Path("article_id") String articleId,
-                                                       @Query("auth") String token,
-                                                       @Field("type") String type,
-                                                       @Field("content") String content,
-                                                       @Field("model") String model);
+    @POST("comments/{target_id}")
+    Observable<PostCommentsIdRes> postCommentToTarget(@Path("target_id") String targetId,
+                                                      @Query("auth") String token,
+                                                      @Field("type") String type,
+                                                      @Field("content") String content,
+                                                      @Field("model") String model);
 }

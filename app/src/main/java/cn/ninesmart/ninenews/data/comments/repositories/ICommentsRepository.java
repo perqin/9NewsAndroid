@@ -15,5 +15,5 @@ public interface ICommentsRepository {
 
     Observable<List<CommentModel>> getMoreCommentsByArticleId(String articleId, long lastDateline, int nextPage);
 
-    Observable<Void> postCommentToArticle(String token, String articleId, String content, String model);
+    Observable<Void> postCommentToTarget(String token, String targetId, String content, String model);
 }

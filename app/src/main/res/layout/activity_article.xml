@@ -104,9 +104,18 @@
                 android:hint="@string/your_comment"/>
 
             <ImageButton
+                android:id="@+id/undo_reply_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="12dp"
+                android:src="@drawable/ic_undo_black_24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+
+            <ImageButton
                 android:id="@+id/post_comment_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="12dp"
                 android:src="@drawable/ic_send_black_24dp"
                 android:background="?attr/selectableItemBackgroundBorderless"/>
 

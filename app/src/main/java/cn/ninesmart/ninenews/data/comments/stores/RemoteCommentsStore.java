@@ -54,8 +54,8 @@ public class RemoteCommentsStore {
         return commentModels;
     }
 
-    public Observable<Void> postCommentToArticle(String token, String articleId, String content, String model) {
-        return mService.postCommentToArticle(articleId, token, "news", content, model).compose(ApplySchedulers.network())
+    public Observable<Void> postCommentToTarget(String token, String targetId, String content, String model) {
+        return mService.postCommentToTarget(targetId, token, "news", content, model).compose(ApplySchedulers.network())
                 .map(new Func1<PostCommentsIdRes, Void>() {
                     @Override
                     public Void call(PostCommentsIdRes postCommentsIdRes) {

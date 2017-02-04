@@ -58,7 +58,7 @@ public class ArticlePresenter implements ArticleContract.Presenter {
     }
 
     @Override
-    public void postCommentToArticle(String articleId, String content) {
+    public void postCommentToTarget(String targetId, String content) {
         if (content.isEmpty()) {
             mView.showCommentBlankError();
             return;
@@ -73,7 +73,7 @@ public class ArticlePresenter implements ArticleContract.Presenter {
         } catch (UnsupportedEncodingException e) {
             auth = mAuthRepository.getAuth().getAuth();
         }
-        mCommentsRepository.postCommentToArticle(auth, articleId, content, DeviceUtils.getDeviceName()).subscribe(aVoid -> {
+        mCommentsRepository.postCommentToTarget(auth, targetId, content, DeviceUtils.getDeviceName()).subscribe(aVoid -> {
             CommentModel commentModel = new CommentModel();
             commentModel.setContent(content);
             UserModel userModel = new UserModel();

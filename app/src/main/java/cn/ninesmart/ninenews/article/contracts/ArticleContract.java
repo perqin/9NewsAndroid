@@ -19,7 +19,7 @@ public interface ArticleContract {
 
         void loadMoreArticleComments(String articleId, long lastDateline, int nextPage);
 
-        void postCommentToArticle(String articleId, String content);
+        void postCommentToTarget(String targetId, String content);
     }
 
     interface View extends BaseView<Presenter> {

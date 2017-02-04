@@ -24,6 +24,11 @@ public class ArticleCommentsRecyclerAdapter extends RecyclerView.Adapter<Article
     private ArrayList<CommentModel> mDataSet = new ArrayList<>();
     private long mLastDateline;
     private int mNextPage;
+    private ItemClickListener mListener;
+
+    public void setItemClickListener(ItemClickListener listener) {
+        mListener = listener;
+    }
 
     public void reloadComments(List<CommentModel> commentModels, long lastDateline, int nextPage) {
         mDataSet.clear();
@@ -61,6 +66,11 @@ public class ArticleCommentsRecyclerAdapter extends RecyclerView.Adapter<Article
                 .into(holder.avatarImage);
         holder.nicknameText.setText(model.getAuthor().getNickname());
         holder.commentText.setText(model.getContent());
+        holder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onItemClick(mDataSet.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -85,5 +95,9 @@ public class ArticleCommentsRecyclerAdapter extends RecyclerView.Adapter<Article
             nicknameText = (TextView) itemView.findViewById(R.id.nickname_text);
             commentText = (TextView) itemView.findViewById(R.id.comment_text);
         }
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(CommentModel commentModel);
     }
 }
