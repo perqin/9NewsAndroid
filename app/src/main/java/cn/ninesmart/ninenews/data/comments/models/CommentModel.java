@@ -14,6 +14,8 @@ public class CommentModel {
 
     private String commentId;
     private String content;
+    private String device;
+    private long date;
     private UserModel author;
 
     public String getCommentId() {
@@ -38,5 +40,21 @@ public class CommentModel {
 
     public void setAuthor(UserModel author) {
         this.author = author;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 }

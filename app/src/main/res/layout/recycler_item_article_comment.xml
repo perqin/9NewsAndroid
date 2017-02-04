@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="88dp"
+    android:paddingBottom="20dp"
     android:background="?attr/selectableItemBackground"
     android:clickable="true">
 
@@ -32,27 +33,25 @@
 
     <TextView
         style="@style/TextAppearance.AppCompat.Subhead"
-        android:id="@+id/tail_text"
+        android:id="@+id/device_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="From OnePlus 3"
         android:textColor="@color/black54"
         app:layout_constraintLeft_toRightOf="@+id/nickname_text"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Subhead"
+        style="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/date_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:text="2012-12-12"
+        android:layout_marginTop="8dp"
         android:textColor="@color/black54"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/nickname_text"
+        app:layout_constraintLeft_toRightOf="@+id/avatar_image"
+        android:layout_marginStart="16dp" />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Body1"
@@ -64,5 +63,6 @@
         android:text="@string/large_text"
         app:layout_constraintLeft_toRightOf="@+id/avatar_image"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nickname_text" />
+        app:layout_constraintTop_toBottomOf="@+id/date_text"
+        android:layout_marginTop="8dp" />
 </android.support.constraint.ConstraintLayout>

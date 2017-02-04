@@ -109,7 +109,8 @@
                 android:layout_height="24dp"
                 android:layout_margin="12dp"
                 android:src="@drawable/ic_undo_black_24dp"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cd_activity_article_undo_reply_button"/>
 
             <ImageButton
                 android:id="@+id/post_comment_button"
@@ -117,7 +118,8 @@
                 android:layout_height="24dp"
                 android:layout_margin="12dp"
                 android:src="@drawable/ic_send_black_24dp"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cd_activity_article_post_comment_button"/>
 
         </LinearLayout>
 

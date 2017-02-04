@@ -37,6 +37,7 @@ public class GetCommentsIdRes {
         public String id;
         public String content;
         public String model;
+        public long dateline;
         public User user;
 
         public static class User {

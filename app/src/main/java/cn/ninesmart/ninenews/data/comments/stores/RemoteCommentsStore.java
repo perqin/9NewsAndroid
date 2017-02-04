@@ -43,6 +43,8 @@ public class RemoteCommentsStore {
             CommentModel commentModel = new CommentModel();
             commentModel.setCommentId(comment.id);
             commentModel.setContent(comment.content);
+            commentModel.setDevice(comment.model);
+            commentModel.setDate(comment.dateline);
             UserModel userModel = new UserModel();
             userModel.setUserId(comment.user._id);
             userModel.setNickname(comment.user.nickname);

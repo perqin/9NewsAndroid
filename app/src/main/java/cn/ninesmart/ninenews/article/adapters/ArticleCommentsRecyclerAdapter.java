@@ -14,6 +14,7 @@ import java.util.List;
 
 import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.data.comments.models.CommentModel;
+import cn.ninesmart.ninenews.utils.DateUtils;
 
 /**
  * Author   : perqin
@@ -66,6 +67,8 @@ public class ArticleCommentsRecyclerAdapter extends RecyclerView.Adapter<Article
                 .into(holder.avatarImage);
         holder.nicknameText.setText(model.getAuthor().getNickname());
         holder.commentText.setText(model.getContent());
+        holder.deviceText.setText(model.getDevice());
+        holder.dateText.setText(DateUtils.getHumanDate(model.getDate()));
         holder.itemView.setOnClickListener(v -> {
             if (mListener != null) {
                 mListener.onItemClick(mDataSet.get(holder.getAdapterPosition()));
@@ -87,6 +90,8 @@ public class ArticleCommentsRecyclerAdapter extends RecyclerView.Adapter<Article
         ImageView avatarImage;
         TextView nicknameText;
         TextView commentText;
+        TextView deviceText;
+        TextView dateText;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -94,6 +99,8 @@ public class ArticleCommentsRecyclerAdapter extends RecyclerView.Adapter<Article
             avatarImage = (ImageView) itemView.findViewById(R.id.avatar_image);
             nicknameText = (TextView) itemView.findViewById(R.id.nickname_text);
             commentText = (TextView) itemView.findViewById(R.id.comment_text);
+            deviceText = (TextView) itemView.findViewById(R.id.device_text);
+            dateText = (TextView) itemView.findViewById(R.id.date_text);
         }
     }
 
