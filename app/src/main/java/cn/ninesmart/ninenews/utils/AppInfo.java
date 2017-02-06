@@ -8,7 +8,7 @@ package cn.ninesmart.ninenews.utils;
 public final class AppInfo {
     // FIXME: Change to real ID
     public static final String APP_ID = "585f1a16239d884fd16502fc";
-    public static final String APP_VERSION = "1.0.0-canary1";
+    public static final String APP_VERSION = "1.0.0-canary2";
 
     private AppInfo() {
         // Prevent construction
