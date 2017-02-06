@@ -33,6 +33,9 @@
     <string name="version_version">Version: %1$s</string>
     <string name="click_to_check_update">Click to check update</string>
     <string name="checking_update">Checking update…</string>
+    <string name="new_version_available">New version available</string>
+    <string name="go_to_download">Go to download?</string>
+    <string name="cancel">Cancel</string>
 
     <!--Preference keys-->
     <string name="pk_settings_version" translatable="false">PK_SETTINGS_VERSION</string>

@@ -1,5 +1,6 @@
 package cn.ninesmart.ninenews.data.network.retrofit.services;
 
+import cn.ninesmart.ninenews.data.network.body.GetAppDownloadInfoRes;
 import cn.ninesmart.ninenews.data.network.body.GetAppInfoRes;
 import cn.ninesmart.ninenews.data.network.body.GetArticleIdRes;
 import cn.ninesmart.ninenews.data.network.body.GetArticlesRes;
@@ -63,4 +64,8 @@ public interface NineNewsService {
 
     @GET("app/{app_id}")
     Observable<GetAppInfoRes> getAppInfo(@Path("app_id") String appId);
+
+    @GET("app/{app_id}/download")
+    Observable<GetAppDownloadInfoRes> getAppDownloadInfo(@Path("app_id") String appId,
+                                                         @Query("auth") String token);
 }
