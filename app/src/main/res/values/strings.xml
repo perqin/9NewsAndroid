@@ -35,11 +35,13 @@
     <string name="checking_update">Checking update…</string>
 
     <!--Preference keys-->
-    <string name="pk_settings_version">PK_SETTINGS_VERSION</string>
-    <string name="pk_settings_about">PK_SETTINGS_ABOUT</string>
+    <string name="pk_settings_version" translatable="false">PK_SETTINGS_VERSION</string>
+    <string name="pk_settings_about" translatable="false">PK_SETTINGS_ABOUT</string>
 
     <!--Long text-->
-    <string name="about_content">Bla bla</string>
+    <string name="about_content">
+        "9News, as the IT news application powered by 9Smart, focus on several geek platforms most people are unfamiliar with, as well as other IT related news. We make efforts to offer geek platforms enthusiasts latest news and stories. The news are categorized in Platforms Ecology, Apple and Android, Apps and Games, Frontier Technology, 9Smart Reviews, Smart Hardware. Our goal is to cover all mobile platforms on market. Many geek platforms are considered our early goals (and surely, vital ones), but Android and iOS will also get supported later."
+    </string>
 
     <!--Content descriptions-->
     <string name="cd_activity_article_cover_image">Cover picture for article</string>

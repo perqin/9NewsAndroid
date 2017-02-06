@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">9 News</string>
+    <string name="about_content">《久闻》作为久智网旗下的科技类资讯应用，以小众系统为核心，辅以其它相关科技类资讯。为小众系统爱好者提供最及时有效的新闻资讯。其分类主要包含“小众生态”，“苹果安卓”，“应用游戏”，“前沿科技”，“久智评测”，“智能硬件”。其客户端预计将支持目前市面上所有手机操作系统。前期主要是面向各小众平台（也是重点），后期也会推出Android和iOS平台下的久闻。</string>
+</resources>
