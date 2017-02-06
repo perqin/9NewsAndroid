@@ -3,6 +3,7 @@ package cn.ninesmart.ninenews.articleslist.views;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,8 +31,9 @@ import cn.ninesmart.ninenews.common.EndlessScrollHelper;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.users.models.UserModel;
 import cn.ninesmart.ninenews.profile.activities.ProfileActivity;
+import cn.ninesmart.ninenews.settings.SettingsActivity;
 
-public class NewsListFragment extends Fragment implements NewsListContract.View, View.OnClickListener, ArticlesListRecyclerAdapter.OnArticleItemClickListener {
+public class NewsListFragment extends Fragment implements NewsListContract.View, View.OnClickListener, ArticlesListRecyclerAdapter.OnArticleItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     private NewsListContract.Presenter mPresenter;
     private OnFragmentInteractionListener mListener;
     private ArticlesListRecyclerAdapter mArticlesListRecyclerAdapter;
@@ -88,6 +91,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // Nav Drawer
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         View navHeaderView = navigationView.getHeaderView(0);
         mAvatarImage = (ImageView) navHeaderView.findViewById(R.id.avatar_image);
         mAvatarImage.setOnClickListener(this);
@@ -187,6 +191,16 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         Intent intent = new Intent(getActivity(), ArticleActivity.class);
         intent.putExtra(ArticleActivity.EXTRA_ARTICLE_ID, articleModel.getArticleId());
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.settings_action) {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+            return true;
+        }
+        return false;
     }
 
     private class OnRefreshListener implements SwipeRefreshLayout.OnRefreshListener {

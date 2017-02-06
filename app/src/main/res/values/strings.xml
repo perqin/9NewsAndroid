@@ -26,6 +26,20 @@
     <string name="comment_cannot_be_empty">Comment cannot be empty</string>
     <string name="you_are_not_logged_in">You are not logged in</string>
     <string name="reply_to_comment">Reply to %1$s:</string>
+    <string name="about">About</string>
+    <string name="ok">OK</string>
+    <string name="new_version_available_version">New version available: %1$s</string>
+    <string name="ninenews_is_up_to_date">9News is up to date</string>
+    <string name="version_version">Version: %1$s</string>
+    <string name="click_to_check_update">Click to check update</string>
+    <string name="checking_update">Checking update…</string>
+
+    <!--Preference keys-->
+    <string name="pk_settings_version">PK_SETTINGS_VERSION</string>
+    <string name="pk_settings_about">PK_SETTINGS_ABOUT</string>
+
+    <!--Long text-->
+    <string name="about_content">Bla bla</string>
 
     <!--Content descriptions-->
     <string name="cd_activity_article_cover_image">Cover picture for article</string>
