@@ -15,8 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,8 +24,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import org.kefirsf.bb.BBProcessorFactory;
-import org.kefirsf.bb.TextProcessor;
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.List;
 
@@ -37,6 +35,7 @@ import cn.ninesmart.ninenews.article.contracts.ArticleContract;
 import cn.ninesmart.ninenews.common.EndlessScrollHelper;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
 import cn.ninesmart.ninenews.data.comments.models.CommentModel;
+import cn.ninesmart.ninenews.utils.NaiveBBCodeParser;
 
 public class ArticleFragment extends Fragment implements ArticleContract.View, View.OnClickListener {
     private static final String ARG_ARTICLE_ID = "ARTICLE_ID";
@@ -58,7 +57,7 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
     private ImageView mCoverImage;
     private TextView mTopicText;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private WebView mContentWeb;
+    private HtmlTextView mContentText;
     private RecyclerView mCommentsRecyclerView;
     private EditText mCommentEdit;
     private ImageButton mUndoReplyButton;
@@ -136,10 +135,9 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
         mTopicText = (TextView) getActivity().findViewById(R.id.topic_text);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.reloadArticle(mArticleId));
-//        mContentText = (PicassoBbTextView) view.findViewById(R.id.content_text);
         NestedScrollView contentScrollView = (NestedScrollView) view.findViewById(R.id.content_nested_scroll_view);
         contentScrollView.setOnScrollChangeListener(new OnContentScrollChangeListener());
-        mContentWeb = (WebView) view.findViewById(R.id.content_web);
+        mContentText = (HtmlTextView) view.findViewById(R.id.content_text);
         LinearLayout commentsLayout = (LinearLayout) getActivity().findViewById(R.id.comments_layout);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) commentsLayout.getLayoutParams();
         mBottomSheetBehavior = (BottomSheetBehavior) params.getBehavior();
@@ -189,16 +187,7 @@ public class ArticleFragment extends Fragment implements ArticleContract.View, V
         mSwipeRefreshLayout.setRefreshing(false);
         Picasso.with(getContext()).load(articleModel.getCoverHdSrc()).into(mCoverImage);
         mTopicText.setText(articleModel.getTopic());
-        TextProcessor processor = BBProcessorFactory.getInstance().create();
-        String html = processor.process(articleModel.getContent() + "\n.\n.")
-                .replaceAll("\\[p]", "")
-                .replaceAll("\\[/p]", "")
-                .replaceAll("<img(.+?)/>", "<img$1 width=\"100%\"/>");
-        mContentWeb.loadData(html, "text/html; charset=utf-8", "UTF-8");
-        mContentWeb.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-//        mContentText.setText(Html.fromHtml(html, new PicassoImageGetter(getContext()), null));
-//        mContentText.setText(articleModel.getContent());
-//        mContentText.setBbText(articleModel.getContent());
+        mContentText.setHtml(NaiveBBCodeParser.toHtml(articleModel.getContent()), new HtmlHttpImageGetter(mContentText, null, true));
     }
 
     @Override

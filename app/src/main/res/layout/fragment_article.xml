@@ -11,21 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <WebView
-            android:id="@+id/content_web"
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:id="@+id/content_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
-            <!--<TextView-->
-                <!--style="@style/TextAppearance.AppCompat.Body1"-->
-                <!--android:id="@+id/content_text"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="16dp"/>-->
-        <!--</LinearLayout>-->
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="@dimen/comment_sheet_peek_height"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"/>
 
     </android.support.v4.widget.NestedScrollView>
 

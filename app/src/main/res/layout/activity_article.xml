@@ -70,7 +70,7 @@
         android:fitsSystemWindows="true"
         android:background="#FFFFFFFF"
         app:layout_behavior="@string/bottom_sheet_behavior"
-        app:behavior_peekHeight="48dp"
+        app:behavior_peekHeight="@dimen/comment_sheet_peek_height"
         app:behavior_hideable="true">
 
         <TextView
