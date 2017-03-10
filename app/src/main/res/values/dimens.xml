@@ -6,4 +6,5 @@
     <dimen name="profile_item_height_avatar">56dp</dimen>
     <dimen name="profile_item_avatar_size">40dp</dimen>
     <dimen name="comment_sheet_peek_height">48dp</dimen>
+    <dimen name="nav_header_height">148dp</dimen>
 </resources>
