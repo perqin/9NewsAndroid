@@ -98,6 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     } else {
                         mIsChecking = false;
+                        preference.setSummary(R.string.click_to_check_update);
                         Toast.makeText(getActivity(), R.string.ninenews_is_up_to_date, Toast.LENGTH_SHORT).show();
                     }
                 });
