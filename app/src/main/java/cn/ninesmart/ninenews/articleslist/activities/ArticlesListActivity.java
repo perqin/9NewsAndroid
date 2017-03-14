@@ -16,7 +16,6 @@ import cn.ninesmart.ninenews.data.auth.repositories.AuthRepository;
 import cn.ninesmart.ninenews.data.users.repositories.UsersRepository;
 
 public class ArticlesListActivity extends AppCompatActivity implements NewsListFragment.OnFragmentInteractionListener {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
