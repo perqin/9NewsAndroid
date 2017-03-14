@@ -147,6 +147,10 @@ public class ArticleCommentsFragment extends Fragment
     }
 
     @Override
+    public void showLoading(boolean isLoading, int target) {
+    }
+
+    @Override
     public void refreshArticleComments(List<CommentModel> commentModels, long lastDateline, int nextPage) {
         mCommentRecyclerAdapter.reloadComments(commentModels, lastDateline, nextPage);
         mListener.onCommentsCountChange(commentModels.size());

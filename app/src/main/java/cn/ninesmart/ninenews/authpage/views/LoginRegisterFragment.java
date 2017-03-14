@@ -114,6 +114,10 @@ public class LoginRegisterFragment extends Fragment implements LoginRegisterCont
     }
 
     @Override
+    public void showLoading(boolean isLoading, int target) {
+    }
+
+    @Override
     public void finishLogin() {
         Toast.makeText(getContext(), R.string.login_successfully, Toast.LENGTH_SHORT).show();
         getActivity().finish();

@@ -1,6 +1,7 @@
 package cn.ninesmart.ninenews.articleslist.presenters;
 
 import cn.ninesmart.ninenews.articleslist.contracts.ArticlesListContract;
+import cn.ninesmart.ninenews.common.BaseView;
 import cn.ninesmart.ninenews.data.articles.repositories.IArticlesRepository;
 import cn.ninesmart.ninenews.data.auth.models.AuthModel;
 import cn.ninesmart.ninenews.data.auth.repositories.IAuthRepository;
@@ -27,14 +28,15 @@ public class ArticlesListPresenter implements ArticlesListContract.Presenter {
 
     @Override
     public void reloadNewsList() {
-        mView.showRefreshing(true);
+        mView.showLoading(true, BaseView.LOADING_DEFAULT);
         mArticlesRepository.getLatestArticlesList().subscribe(articleModels -> {
             if (articleModels.isEmpty()) {
                 mView.refreshNewsList(articleModels, -1, -1);
             } else {
                 mView.refreshNewsList(articleModels, articleModels.get(0).pager.last_dateline, articleModels.get(0).pager.next_page);
             }
-        }, Throwable::printStackTrace, () -> mView.showRefreshing(false));
+            mView.showLoading(false, BaseView.LOADING_DEFAULT);
+        }, Throwable::printStackTrace);
     }
 
     @Override

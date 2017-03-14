@@ -34,7 +34,5 @@ public interface ArticlesListContract {
         void showLoginRegisterPage();
 
         void showUserProfilePage();
-
-        void showRefreshing(boolean isRefreshing);
     }
 }

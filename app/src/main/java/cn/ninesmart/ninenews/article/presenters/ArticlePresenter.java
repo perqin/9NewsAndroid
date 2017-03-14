@@ -1,6 +1,7 @@
 package cn.ninesmart.ninenews.article.presenters;
 
 import cn.ninesmart.ninenews.article.contracts.ArticleContract;
+import cn.ninesmart.ninenews.common.BaseView;
 import cn.ninesmart.ninenews.data.articles.repositories.IArticlesRepository;
 
 /**
@@ -19,8 +20,10 @@ public class ArticlePresenter implements ArticleContract.Presenter {
 
     @Override
     public void reloadArticle(String articleId) {
-        mArticlesRepository.getArticle(articleId).subscribe(
-                articleModel -> mView.refreshArticle(articleModel),
-                Throwable::printStackTrace);
+        mView.showLoading(true, BaseView.LOADING_DEFAULT);
+        mArticlesRepository.getArticle(articleId).subscribe(articleModel -> {
+            mView.refreshArticle(articleModel);
+            mView.showLoading(false, BaseView.LOADING_DEFAULT);
+        }, Throwable::printStackTrace);
     }
 }

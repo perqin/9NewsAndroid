@@ -104,6 +104,10 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     }
 
     @Override
+    public void showLoading(boolean isLoading, int target) {
+    }
+
+    @Override
     public void refreshProfile(UserModel userModel) {
         mEmailText.setText(userModel.getEmail());
         Picasso.with(getContext()).load(userModel.getAvatarThumbSrc()).into(mAvatarImage);

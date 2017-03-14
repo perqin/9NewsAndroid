@@ -134,6 +134,18 @@ public class ArticlesListFragment extends Fragment
     }
 
     @Override
+    public void showLoading(boolean isLoading, int target) {
+        if (mSwipeRefreshLayout.isRefreshing() != isLoading) {
+            mSwipeRefreshLayout.setRefreshing(isLoading);
+            if (isLoading) {
+                mArticlesListHelper.unregister();
+            } else {
+                mArticlesListHelper.register(mArticlesListRecyclerView);
+            }
+        }
+    }
+
+    @Override
     public void refreshNewsList(List<ArticleModel> articleModels, long lastDateline, int nextPage) {
         mArticlesListRecyclerAdapter.reloadList(articleModels, lastDateline, nextPage);
     }
@@ -166,16 +178,6 @@ public class ArticlesListFragment extends Fragment
     @Override
     public void showUserProfilePage() {
         startActivity(new Intent(getActivity(), ProfileActivity.class));
-    }
-
-    @Override
-    public void showRefreshing(boolean isRefreshing) {
-        mSwipeRefreshLayout.setRefreshing(isRefreshing);
-        if (isRefreshing) {
-            mArticlesListHelper.unregister();
-        } else {
-            mArticlesListHelper.register(mArticlesListRecyclerView);
-        }
     }
 
     @Override

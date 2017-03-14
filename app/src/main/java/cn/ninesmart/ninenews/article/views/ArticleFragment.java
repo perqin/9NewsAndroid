@@ -121,6 +121,13 @@ public class ArticleFragment extends Fragment implements ArticleContract.View {
     }
 
     @Override
+    public void showLoading(boolean isLoading, int target) {
+        if (mSwipeRefreshLayout.isRefreshing() != isLoading) {
+            mSwipeRefreshLayout.setRefreshing(isLoading);
+        }
+    }
+
+    @Override
     public void refreshArticle(ArticleModel articleModel) {
         mSwipeRefreshLayout.setRefreshing(false);
         Picasso.with(getContext()).load(articleModel.getCoverHdSrc()).into(mCoverImage);
