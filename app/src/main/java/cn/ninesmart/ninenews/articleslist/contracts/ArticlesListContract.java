@@ -11,7 +11,7 @@ import cn.ninesmart.ninenews.data.users.models.UserModel;
  * Date     : 17-1-12
  */
 
-public interface NewsListContract {
+public interface ArticlesListContract {
     interface Presenter {
         void reloadNewsList();
 

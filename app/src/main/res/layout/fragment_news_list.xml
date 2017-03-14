@@ -4,7 +4,7 @@
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.ninesmart.ninenews.articleslist.views.NewsListFragment" >
+    tools:context="cn.ninesmart.ninenews.articleslist.views.ArticlesListFragment" >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/articles_list_recycler_view"

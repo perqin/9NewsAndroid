@@ -25,7 +25,7 @@ import java.util.List;
 import cn.ninesmart.ninenews.R;
 import cn.ninesmart.ninenews.article.activities.ArticleActivity;
 import cn.ninesmart.ninenews.articleslist.adapters.ArticlesListRecyclerAdapter;
-import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
+import cn.ninesmart.ninenews.articleslist.contracts.ArticlesListContract;
 import cn.ninesmart.ninenews.authpage.activities.LoginRegisterActivity;
 import cn.ninesmart.ninenews.common.EndlessScrollHelper;
 import cn.ninesmart.ninenews.data.articles.model.ArticleModel;
@@ -33,8 +33,11 @@ import cn.ninesmart.ninenews.data.users.models.UserModel;
 import cn.ninesmart.ninenews.profile.activities.ProfileActivity;
 import cn.ninesmart.ninenews.settings.SettingsActivity;
 
-public class NewsListFragment extends Fragment implements NewsListContract.View, View.OnClickListener, ArticlesListRecyclerAdapter.OnArticleItemClickListener, NavigationView.OnNavigationItemSelectedListener {
-    private NewsListContract.Presenter mPresenter;
+public class ArticlesListFragment extends Fragment
+        implements ArticlesListContract.View, View.OnClickListener,
+        ArticlesListRecyclerAdapter.OnArticleItemClickListener,
+        NavigationView.OnNavigationItemSelectedListener {
+    private ArticlesListContract.Presenter mPresenter;
     private OnFragmentInteractionListener mListener;
     private ArticlesListRecyclerAdapter mArticlesListRecyclerAdapter;
     private EndlessScrollHelper mArticlesListHelper = new EndlessScrollHelper() {
@@ -53,12 +56,12 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mArticlesListRecyclerView;
 
-    public NewsListFragment() {
+    public ArticlesListFragment() {
         // Required empty public constructor
     }
 
-    public static NewsListFragment newInstance() {
-        return new NewsListFragment();
+    public static ArticlesListFragment newInstance() {
+        return new ArticlesListFragment();
     }
 
     @Override
@@ -121,7 +124,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     }
 
     @Override
-    public void setPresenter(NewsListContract.Presenter presenter) {
+    public void setPresenter(ArticlesListContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

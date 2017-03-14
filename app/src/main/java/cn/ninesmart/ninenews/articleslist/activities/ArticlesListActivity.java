@@ -8,14 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import cn.ninesmart.ninenews.R;
-import cn.ninesmart.ninenews.articleslist.contracts.NewsListContract;
-import cn.ninesmart.ninenews.articleslist.presenters.NewsListPresenter;
-import cn.ninesmart.ninenews.articleslist.views.NewsListFragment;
+import cn.ninesmart.ninenews.articleslist.contracts.ArticlesListContract;
+import cn.ninesmart.ninenews.articleslist.presenters.ArticlesListPresenter;
+import cn.ninesmart.ninenews.articleslist.views.ArticlesListFragment;
 import cn.ninesmart.ninenews.data.articles.repositories.ArticlesRepository;
 import cn.ninesmart.ninenews.data.auth.repositories.AuthRepository;
 import cn.ninesmart.ninenews.data.users.repositories.UsersRepository;
 
-public class ArticlesListActivity extends AppCompatActivity implements NewsListFragment.OnFragmentInteractionListener {
+public class ArticlesListActivity extends AppCompatActivity implements ArticlesListFragment.OnFragmentInteractionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +30,15 @@ public class ArticlesListActivity extends AppCompatActivity implements NewsListF
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NewsListFragment fragment = (NewsListFragment)
+        ArticlesListFragment fragment = (ArticlesListFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (fragment == null) {
-            fragment = NewsListFragment.newInstance();
+            fragment = ArticlesListFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-        NewsListContract.Presenter presenter = new NewsListPresenter(
+        ArticlesListContract.Presenter presenter = new ArticlesListPresenter(
                 AuthRepository.getInstance(this), ArticlesRepository.getInstance(),
                 UsersRepository.getInstance(), fragment);
         fragment.setPresenter(presenter);
