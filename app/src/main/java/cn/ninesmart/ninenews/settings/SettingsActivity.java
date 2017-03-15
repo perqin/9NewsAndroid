@@ -1,8 +1,10 @@
 package cn.ninesmart.ninenews.settings;
 
-import android.content.Intent;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
@@ -20,6 +22,7 @@ import cn.ninesmart.ninenews.common.ApplySchedulers;
 import cn.ninesmart.ninenews.data.auth.repositories.AuthRepository;
 import cn.ninesmart.ninenews.data.auth.repositories.IAuthRepository;
 import cn.ninesmart.ninenews.data.network.retrofit.ApiFactory;
+import cn.ninesmart.ninenews.data.storage.preferences.PreferencesFactory;
 import cn.ninesmart.ninenews.utils.AppInfo;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -49,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment {
+        public static final String PK_APP_DOWNLOAD_REF = "APP_DOWNLOAD_REF";
         private Preference mVersionPreference;
         private boolean mIsChecking;
 
@@ -62,12 +66,13 @@ public class SettingsActivity extends AppCompatActivity {
 
             mVersionPreference = getPreferenceManager().findPreference(getString(R.string.pk_settings_version));
             mVersionPreference.setTitle(getString(R.string.version_version, AppInfo.APP_VERSION));
-            mVersionPreference.setSummary(R.string.click_to_check_update);
+            mVersionPreference.setSummary(isDownloading() ?
+                    R.string.downloading_latest_version_of_9news : R.string.click_to_check_update);
             mVersionPreference.setOnPreferenceClickListener(this::checkUpdate);
         }
 
         private boolean checkUpdate(Preference preference) {
-            if (!mIsChecking) {
+            if (!mIsChecking && !isDownloading()) {
                 mIsChecking = true;
                 preference.setSummary(R.string.checking_update);
                 ApiFactory.getInstance().getNineNewsService().getAppInfo(AppInfo.APP_ID).compose(ApplySchedulers.network()).subscribe(res -> {
@@ -91,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
                                         .setTitle(R.string.new_version_available)
                                         .setMessage(R.string.go_to_download)
                                         .setPositiveButton(R.string.ok, (dialog, which) ->
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(dlRes.url))))
+                                                downloadNewVersionApk(dlRes.url, res.app.version))
                                         .setNegativeButton(R.string.cancel, null)
                                         .show();
                             });
@@ -104,6 +109,24 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
             return true;
+        }
+
+        private void downloadNewVersionApk(String url, String version) {
+            DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+            request.setTitle(getString(R.string.downloading_latest_version_of_9news));
+            request.setDescription(getString(R.string.downloading_9news_version, version));
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, String.format("9News-%s.apk", version));
+
+            long downloadRef = downloadManager.enqueue(request);
+            PreferencesFactory.getInstance(getActivity()).getAppPreferences()
+                    .edit().putLong(PK_APP_DOWNLOAD_REF, downloadRef).apply();
+        }
+
+        private boolean isDownloading() {
+            return PreferencesFactory.getInstance(getActivity()).getAppPreferences()
+                    .getLong(PK_APP_DOWNLOAD_REF, -1) != -1;
         }
     }
 }

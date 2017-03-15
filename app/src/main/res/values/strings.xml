@@ -37,6 +37,8 @@
     <string name="go_to_download">Go to download?</string>
     <string name="cancel">Cancel</string>
     <string name="view_comments">View comments</string>
+    <string name="downloading_latest_version_of_9news">Downloading latest version of 9News</string>
+    <string name="downloading_9news_version">Downloading 9News %1$s</string>
 
     <!--Preference keys-->
     <string name="pk_settings_version" translatable="false">PK_SETTINGS_VERSION</string>
