@@ -39,6 +39,8 @@
     <string name="view_comments">View comments</string>
     <string name="downloading_latest_version_of_9news">Downloading latest version of 9News</string>
     <string name="downloading_9news_version">Downloading 9News %1$s</string>
+    <string name="update_in_progress">Update in progress</string>
+    <string name="start_downloading">Start downloading</string>
 
     <!--Preference keys-->
     <string name="pk_settings_version" translatable="false">PK_SETTINGS_VERSION</string>
