@@ -67,10 +67,7 @@ public class UpdateRepository implements IUpdateRepository {
 
     @Override
     public boolean isUpdating() {
-        // TODO: Implement isUpdating
-        return false;
-//            return PreferencesFactory.getInstance(getActivity()).getAppPreferences()
-//                    .getLong(PK_APP_DOWNLOAD_REF, -1) != -1;
+        return mSharedPreferences.getLong(PK_APP_DOWNLOAD_REF, -1) != -1;
     }
 
     @Override
@@ -94,8 +91,11 @@ public class UpdateRepository implements IUpdateRepository {
 
     @Override
     public Observable<Void> cancelUpdating() {
-        // TODO: Implement cancelUpdating
-        throw new RuntimeException("Method not implemented: cancelUpdating");
+        int removedCount = mDownloadManager.remove(mSharedPreferences.getLong(PK_APP_DOWNLOAD_REF, -1));
+        mSharedPreferences.edit().remove(PK_APP_DOWNLOAD_REF).apply();
+        return removedCount == 0
+                ? Observable.error(new RuntimeException("No download found"))
+                : Observable.just(null);
     }
 
     private void startDownloading(VersionInfo info) {
