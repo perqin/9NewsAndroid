@@ -24,14 +24,14 @@ android {
         debug {
 //            buildConfigField "int", "versionCode", "${versionInfo.versionCode}"
 //            buildConfigField "String", "versionName", versionInfo.versionName
-            buildConfigField "String", "APP_ID", versionInfo.appId
+            buildConfigField "String", "APP_ID", "\"${versionInfo.appId}\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            buildConfigField "int", "versionCode", "${versionInfo.versionCode}"
 //            buildConfigField "String", "versionName", versionInfo.versionName
-            buildConfigField "String", "APP_ID", versionInfo.appId
+            buildConfigField "String", "APP_ID", "\"${versionInfo.appId}\""
         }
     }
 }

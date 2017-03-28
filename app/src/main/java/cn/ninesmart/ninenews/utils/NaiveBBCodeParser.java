@@ -13,6 +13,7 @@ public final class NaiveBBCodeParser {
     public static String toHtml(String bbCode) {
         return bbCode
                 .replaceAll("\\[p](.+?)\\[/p]", "<p>$1</p>")
+                .replaceAll("\\[h2](.+?)\\[/h2]", "<h2>$1</h2>")
                 .replaceAll("\\[img](.+?)\\[/img]", "<img src=\"$1\" />")
                 .replaceAll("\\[img=(.+?)](.+?)\\[/img]", "<img src=\"$2\" /><p><center><i>▲ $1</i></center></p>");
     }
