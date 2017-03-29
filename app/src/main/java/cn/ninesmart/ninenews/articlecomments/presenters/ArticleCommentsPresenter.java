@@ -66,6 +66,7 @@ public class ArticleCommentsPresenter implements ArticleCommentsContract.Present
         mCommentsRepository.postCommentToTarget(auth, targetId, content, DeviceUtils.getDeviceName()).subscribe(aVoid -> {
             CommentModel commentModel = new CommentModel();
             commentModel.setContent(content);
+            commentModel.setDate(System.currentTimeMillis());
             UserModel userModel = new UserModel();
             commentModel.setAuthor(userModel);
             mView.postCommentSuccessfully(commentModel);
