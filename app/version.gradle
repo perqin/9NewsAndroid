@@ -1,5 +1,5 @@
 ext.versionInfo = [
-        versionCode: 3,
-        versionName: '1.0.0-canary4',
+        versionCode: 4,
+        versionName: '1.0.0-alpha1',
         appId: '586f9e491d6f139727019d3e'
 ]
